@@ -48,6 +48,149 @@
             border-color: #fff;
         }
 
+        /* Welcome Screen - Efecto de sobre con imágenes reales */
+        .welcome-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 15000;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .welcome-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        /* Contenedor del sobre */
+        .envelope-container {
+            position: relative;
+            width: 320px;
+            height: 220px;
+            cursor: none;
+        }
+
+        /* Sobre cerrado - CON TU IMAGEN */
+        .envelope-closed {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://github.com/tomasoromero/portfolio/raw/main/sobre-cerrado.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            transition: opacity 0.5s ease;
+            z-index: 3;
+        }
+
+        /* Sobre abierto - CON TU IMAGEN */
+        .envelope-opened {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://github.com/tomasoromero/portfolio/raw/main/sobre-abierto.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+            z-index: 2;
+        }
+
+        /* Estados de transición */
+        .envelope-container.opened .envelope-closed {
+            opacity: 0;
+        }
+
+        .envelope-container.opened .envelope-opened {
+            opacity: 1;
+        }
+
+        /* Carta que sale del sobre */
+        .envelope-letter {
+            position: absolute;
+            width: 85%;
+            height: 140%;
+            background: #fff;
+            left: 7.5%;
+            top: 100%;
+            border-radius: 6px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            transform: translateY(0);
+            transition: transform 1s cubic-bezier(0.23, 1, 0.32, 1);
+            opacity: 0;
+            z-index: 4;
+            padding: 40px 30px;
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .envelope-container.opened .envelope-letter {
+            transform: translateY(-70%);
+            opacity: 1;
+        }
+
+        /* Contenido de la carta */
+        .letter-title {
+            font-size: clamp(1.8rem, 3.5vw, 2.5rem);
+            font-weight: 200;
+            color: #333;
+            margin: 0 0 15px 0;
+            letter-spacing: -0.5px;
+        }
+
+        .letter-subtitle {
+            font-size: clamp(0.8rem, 1.5vw, 1rem);
+            color: #666;
+            margin: 0 0 25px 0;
+            font-weight: 300;
+            line-height: 1.4;
+        }
+
+        .letter-button {
+            background: #E74C3C;
+            border: none;
+            border-radius: 20px;
+            padding: 12px 24px;
+            color: #fff;
+            font-size: 13px;
+            font-weight: 400;
+            letter-spacing: 0.8px;
+            cursor: none;
+            transition: all 0.25s ease;
+            align-self: center;
+        }
+
+        .letter-button:hover {
+            background: #C0392B;
+            transform: translateY(-1px);
+        }
+
+        /* Texto de instrucción */
+        .envelope-instruction {
+            position: absolute;
+            bottom: -50px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 14px;
+            font-weight: 300;
+            opacity: 1;
+            transition: opacity 0.3s ease;
+        }
+
+        .envelope-container.opened .envelope-instruction {
+            opacity: 0;
+        }
+
         /* Header */
         .header {
             position: fixed;
@@ -98,233 +241,7 @@
             transform: translateY(-2px);
         }
 
-        /* Welcome Screen - Fondo estático sin rayos giratorios */
-        .welcome-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(
-                circle at center,
-                rgba(15, 15, 20, 1) 0%,
-                rgba(5, 5, 10, 1) 70%,
-                rgba(0, 0, 0, 1) 100%
-            );
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 15000;
-            transition: all 1s ease-in-out;
-            overflow: hidden;
-        }
-
-        .welcome-screen.hidden {
-            opacity: 0;
-            visibility: hidden;
-            transform: scale(0.95);
-        }
-
-        .welcome-card {
-            position: relative;
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(25px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 20px;
-            padding: 50px 40px;
-            text-align: center;
-            max-width: 480px;
-            width: 90%;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
-            z-index: 10;
-        }
-
-        /* Overlay radial más sutil */
-        .welcome-radial-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(
-                circle at center,
-                transparent 0%,
-                transparent 40%,
-                rgba(0, 0, 0, 0.2) 70%,
-                rgba(0, 0, 0, 0.7) 90%,
-                rgba(0, 0, 0, 0.9) 100%
-            );
-            z-index: 3;
-        }
-
-        /* Spotlight Effect más sutil */
-        .welcome-card::before {
-            content: '';
-            position: absolute;
-            top: -30%;
-            left: -30%;
-            width: 160%;
-            height: 160%;
-            background: conic-gradient(
-                from 0deg at 50% 50%,
-                transparent 0deg,
-                rgba(255, 255, 255, 0.02) 60deg,
-                transparent 120deg,
-                rgba(255, 255, 255, 0.015) 180deg,
-                transparent 240deg,
-                rgba(255, 255, 255, 0.02) 300deg,
-                transparent 360deg
-            );
-            animation: welcomeSpotlight 80s linear infinite;
-            pointer-events: none;
-        }
-
-        .welcome-card::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: inherit;
-            border-radius: inherit;
-            z-index: -1;
-        }
-
-        .welcome-content {
-            position: relative;
-            z-index: 10;
-        }
-
-        .welcome-title {
-            font-size: clamp(2.2rem, 4.5vw, 3.2rem);
-            font-weight: 200;
-            color: white;
-            margin-bottom: 20px;
-            letter-spacing: -1px;
-            background: linear-gradient(135deg, #ffffff 0%, #e8e8e8 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            animation: welcomeTitleGlow 8s ease-in-out infinite alternate;
-        }
-
-        .welcome-subtitle {
-            font-size: clamp(0.9rem, 1.8vw, 1.2rem);
-            color: rgba(255, 255, 255, 0.7);
-            margin-bottom: 35px;
-            font-weight: 300;
-            letter-spacing: 0.3px;
-            line-height: 1.5;
-        }
-
-        .welcome-button {
-            position: relative;
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(255, 255, 255, 0.04) 100%);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 40px;
-            padding: 16px 35px;
-            color: white;
-            font-size: 15px;
-            font-weight: 300;
-            letter-spacing: 0.8px;
-            cursor: none;
-            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-            backdrop-filter: blur(10px);
-            text-transform: uppercase;
-            overflow: hidden;
-        }
-
-        .welcome-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
-            transition: left 0.8s ease;
-        }
-
-        .welcome-button:hover::before {
-            left: 100%;
-        }
-
-        .welcome-button:hover {
-            transform: translateY(-2px) scale(1.02);
-            box-shadow: 0 10px 25px rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.25);
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.06) 100%);
-        }
-
-        .welcome-button:active {
-            transform: translateY(-1px) scale(1.01);
-        }
-
-        /* Floating particles más sutiles */
-        .welcome-particles {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            overflow: hidden;
-        }
-
-        .welcome-particle {
-            position: absolute;
-            width: 1.5px;
-            height: 1.5px;
-            background: rgba(255, 255, 255, 0.3);
-            border-radius: 50%;
-            animation: welcomeParticleFloat 15s ease-in-out infinite;
-        }
-
-        /* Animations */
-        @keyframes welcomeCardFloat {
-            0%, 100% {
-                transform: translateY(0px) rotate(0deg);
-            }
-            50% {
-                transform: translateY(-10px) rotate(0.5deg);
-            }
-        }
-
-        @keyframes welcomeSpotlight {
-            0% {
-                transform: rotate(0deg);
-            }
-            100% {
-                transform: rotate(360deg);
-            }
-        }
-
-        @keyframes welcomeTitleGlow {
-            0% {
-                text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
-            }
-            100% {
-                text-shadow: 0 0 30px rgba(255, 255, 255, 0.6);
-            }
-        }
-
-        @keyframes welcomeParticleFloat {
-            0% {
-                opacity: 0;
-                transform: translateY(100vh) rotate(0deg);
-            }
-            10% {
-                opacity: 1;
-            }
-            90% {
-                opacity: 1;
-            }
-            100% {
-                opacity: 0;
-                transform: translateY(-100vh) rotate(360deg);
-            }
-        }
+        /* Loading screen */
         .loading-screen {
             position: fixed;
             top: 0;
@@ -478,13 +395,12 @@
             border-radius: 12px;
             overflow: hidden;
             cursor: none;
-            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             transform-style: preserve-3d;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
             opacity: 0;
             transform: scale(0.8) translateZ(-50px) rotateX(-60deg);
             will-change: transform, box-shadow;
-            --angle: 0deg;
         }
 
         .project-item.loaded {
@@ -498,29 +414,7 @@
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
             z-index: 50;
             transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
-        }
-
-        /* Efecto adicional para hacer más visible el hover */
-        .project-item::before {
-            content: '';
-            position: absolute;
-            top: -5px;
-            left: -5px;
-            right: -5px;
-            bottom: -5px;
-            border-radius: 15px;
-            background: linear-gradient(45deg, 
-                rgba(255, 255, 255, 0.2), 
-                rgba(255, 255, 255, 0.1), 
-                transparent
-            );
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            z-index: -1;
-        }
-
-        .project-item:hover::before {
-            opacity: 1;
+            filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.3));
         }
 
         .project-item img,
@@ -610,20 +504,6 @@
         .project-item:hover .project-info {
             opacity: 1;
             transform: translateX(-50%) translateY(-20px) rotateX(60deg);
-        }
-
-        /* Añadir un subtle glow effect */
-        .project-item:hover {
-            filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.3));
-        }
-
-        /* Mejorar la transición entre estados */
-        .project-item {
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .project-item:hover {
-            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
         /* Center Display Modal */
@@ -1008,7 +888,7 @@
                 // Calculate 3D position
                 const x = 50 + radius * Math.cos(radian);
                 const y = 50 + radius * Math.sin(radian);
-                const z = 0; // Sin variación en Z para mantener el plano de la rueda
+                const z = 0;
                 
                 const projectItem = document.createElement('div');
                 projectItem.className = 'project-item';
@@ -1044,7 +924,7 @@
                         mediaElement.style.background = 'none';
                     });
                     
-                    // Error fallback - usar imagen placeholder
+                    // Error fallback
                     mediaElement.addEventListener('error', () => {
                         mediaElement.src = 'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxsaW5lYXJHcmFkaWVudCBpZD0iZ3JhZGllbnQiIHgxPSIwJSIgeTE9IjAlIiB4Mj0iMTAwJSIgeTI9IjEwMCUiPgogICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjZjBmMGYwIiAvPgogICAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNlMGUwZTAiIC8+CiAgICA8L2xpbmVhckdyYWRpZW50PgogIDwvZGVmcz4KICA8cmVjdCB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMwMCIgZmlsbD0idXJsKCNncmFkaWVudCkiIC8+CiAgPGNpcmNsZSBjeD0iMjAwIiBjeT0iMTUwIiByPSI0MCIgZmlsbD0iI2NjYyIgLz4KICA8dGV4dCB4PSIyMDAiIHk9IjIwMCIgZm9udC1mYW1pbHk9IkFyaWFsLCBzYW5zLXNlcmlmIiBmb250LXNpemU9IjE2IiBmaWxsPSIjOTk5IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIj5JbWFnZW48L3RleHQ+Cjwvc3ZnPgo=';
                     });
@@ -1084,7 +964,7 @@
                     }
                 });
                 
-                // Click handler - mostrar en el centro
+                // Click handler
                 projectItem.addEventListener('click', () => {
                     showCenterDisplay(project);
                 });
@@ -1221,7 +1101,7 @@
                 
                 // Wheel up = clockwise, Wheel down = counter-clockwise
                 const direction = e.deltaY > 0 ? 1 : -1;
-                targetRotationZ += direction * 5; // Ajusta la sensibilidad aquí
+                targetRotationZ += direction * 5;
             }, { passive: false });
         }
 
@@ -1241,7 +1121,8 @@
                 if (e.target.closest('.project-item') || 
                     e.target.closest('.control-btn') || 
                     e.target.closest('.close-btn') ||
-                    e.target.closest('.welcome-button')) {
+                    e.target.closest('.welcome-button') ||
+                    e.target.closest('.letter-button')) {
                     cursor.classList.add('hover');
                     isHovering = true;
                 } else if (isHovering) {
@@ -1289,10 +1170,9 @@
                 particle.style.animationDelay = Math.random() * 6 + 's';
                 particle.style.animationDuration = (Math.random() * 4 + 4) + 's';
                 
-                // Diferentes tonos de gris
-                const grayValue = 100 + Math.random() * 100; // 100-200 para grises más visibles
+                const grayValue = 100 + Math.random() * 100;
                 particle.style.background = `rgba(${grayValue}, ${grayValue}, ${grayValue}, 0.8)`;
-                particle.style.width = (2 + Math.random() * 3) + 'px'; // Más pequeñas: 2-5px
+                particle.style.width = (2 + Math.random() * 3) + 'px';
                 particle.style.height = particle.style.width;
                 
                 container.appendChild(particle);
@@ -1304,7 +1184,6 @@
                 mouse.x = e.clientX;
                 mouse.y = e.clientY;
                 
-                // Mover partículas cercanas al cursor
                 const particles = container.querySelectorAll('.particle');
                 particles.forEach(particle => {
                     const rect = particle.getBoundingClientRect();
@@ -1338,7 +1217,7 @@
                 targetRotationZ = rotationSpeed;
             }
             
-            // Smooth rotation interpolation - solo en Z para efecto rueda
+            // Smooth rotation interpolation
             currentRotationZ += (targetRotationZ - currentRotationZ) * 0.05;
             currentRotationX += (targetRotationX - currentRotationX) * 0.05;
             
@@ -1386,7 +1265,6 @@
         function pauseRotation() {
             isAutoRotating = false;
             rotationSpeed = 0;
-            // No resetear targetRotationZ para mantener la posición actual
             
             const autoRotateBtn = document.getElementById('autoRotateBtn');
             autoRotateBtn.classList.remove('active');

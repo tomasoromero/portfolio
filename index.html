@@ -822,8 +822,20 @@
 
         // Welcome screen functionality - efecto de sobre
         function showWelcomeScreen() {
-            const welcomeScreen = document.getElementById('welcomeScreen');
-            const envelopeContainer = document.getElementById('envelopeContainer');
+        <!-- Welcome Screen - Efecto de sobre con todas las capas -->
+    <div class="welcome-screen" id="welcomeScreen">
+        <div class="envelope-container" id="envelopeContainer">
+            <div class="envelope-closed"></div>
+            <div class="envelope-letter">
+                <h1 class="letter-title">Bienvenido</h1>
+                <p class="letter-subtitle">Descubre mi mundo creativo a través de una experiencia visual única</p>
+                <button class="letter-button" id="enterButton">ENTRAR</button>
+            </div>
+            <div class="envelope-opened"></div>
+            <div class="envelope-flap-front"></div>
+            <div class="envelope-instruction">Haz click para abrir</div>
+        </div>
+    </div>
             const enterButton = document.getElementById('enterButton');
             
             // Manejar click en el sobre para abrirlo

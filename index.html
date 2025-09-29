@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Portafolio 3D</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <title>Bienvenido - Portafolio</title>
     <style>
         * {
             margin: 0;
@@ -14,10 +13,9 @@
 
         body {
             font-family: 'Helvetica Neue', Arial, sans-serif;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background: #000;
             overflow: hidden;
             height: 100vh;
-            color: #333;
             cursor: none;
         }
 
@@ -31,14 +29,8 @@
             pointer-events: none;
             z-index: 99999;
             transition: transform 0.1s ease;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(5px);
-            mix-blend-mode: difference;
-        }
-
-        .custom-cursor.dark-mode {
-            border-color: #fff;
             background: rgba(255, 255, 255, 0.2);
+            mix-blend-mode: difference;
         }
 
         .custom-cursor.hover {
@@ -57,12 +49,6 @@
             align-items: center;
             justify-content: center;
             z-index: 15000;
-            transition: opacity 1s ease-in-out;
-        }
-
-        .welcome-screen.hidden {
-            opacity: 0;
-            visibility: hidden;
         }
 
         /* Contenedor del sobre */
@@ -73,7 +59,7 @@
             cursor: none;
         }
 
-        /* Sobre cerrado (base trasera) */
+        /* Sobre cerrado (inicial) */
         .envelope-closed {
             position: absolute;
             width: 100%;
@@ -82,15 +68,16 @@
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
-            z-index: 1;
-            transition: opacity 0.5s ease;
+            z-index: 4;
+            transition: opacity 0.3s ease;
         }
 
         .envelope-container.opened .envelope-closed {
             opacity: 0;
+            pointer-events: none;
         }
 
-        /* Sobre abierto (parte trasera cuando está abierto) */
+        /* Sobre abierto (parte trasera) */
         .envelope-opened {
             position: absolute;
             width: 100%;
@@ -99,44 +86,39 @@
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
+            z-index: 1;
             opacity: 0;
-            z-index: 2;
-            transition: opacity 0.8s ease;
         }
 
         .envelope-container.opened .envelope-opened {
             opacity: 1;
         }
 
-        /* Papel carta con el texto */
+        /* Papel carta que sube desde abajo */
         .envelope-letter {
             position: absolute;
-            width: 70%;
-            height: 75%;
-            left: 15%;
-            top: 12.5%;
+            width: 72%;
+            height: 78%;
+            left: 14%;
+            bottom: -80%;
             background-image: url('https://github.com/tomasoromero/portfolio/raw/main/papel-carta.png');
             background-size: cover;
             background-repeat: no-repeat;
             background-position: center;
-            border-radius: 8px;
-            transform: scale(0);
-            opacity: 0;
-            z-index: 3;
-            padding: 100px 80px;
+            z-index: 2;
+            padding: 120px 80px 80px 80px;
             text-align: center;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            transition: all 1.2s cubic-bezier(0.23, 1, 0.32, 1);
+            transition: bottom 1.5s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
         .envelope-container.opened .envelope-letter {
-            transform: scale(1);
-            opacity: 1;
+            bottom: 8%;
         }
 
-        /* Tapa frontal del sobre abierto */
+        /* Tapa frontal del sobre */
         .envelope-flap-front {
             position: absolute;
             width: 100%;
@@ -145,10 +127,8 @@
             background-size: contain;
             background-repeat: no-repeat;
             background-position: center;
+            z-index: 3;
             opacity: 0;
-            z-index: 4;
-            transition: opacity 0.8s ease 0.3s;
-            pointer-events: none;
         }
 
         .envelope-container.opened .envelope-flap-front {
@@ -210,160 +190,6 @@
         .envelope-container.opened .envelope-instruction {
             opacity: 0;
         }
-
-        /* Loading screen */
-        .loading-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 10000;
-            transition: all 1s ease;
-        }
-
-        .loading-screen.hidden {
-            opacity: 0;
-            visibility: hidden;
-        }
-
-        .loading-content {
-            text-align: center;
-        }
-
-        .loading-title {
-            font-size: clamp(2rem, 5vw, 4rem);
-            font-weight: 200;
-            color: #333;
-            margin-bottom: 20px;
-        }
-
-        .loading-bar {
-            width: 300px;
-            height: 2px;
-            background: rgba(0, 0, 0, 0.1);
-            margin: 0 auto;
-            overflow: hidden;
-        }
-
-        .loading-progress {
-            height: 100%;
-            background: #333;
-            width: 0%;
-            transition: width 0.3s ease;
-        }
-
-        .loading-counter {
-            margin-top: 20px;
-            font-size: 14px;
-            color: #666;
-        }
-
-        /* Header */
-        .header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            z-index: 1000;
-            padding: 25px 0;
-        }
-
-        .nav {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 50px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 28px;
-            font-weight: 300;
-            color: #333;
-            text-decoration: none;
-        }
-
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 40px;
-        }
-
-        .nav-links a {
-            text-decoration: none;
-            color: #333;
-            font-weight: 300;
-            font-size: 16px;
-        }
-
-        /* Main Container */
-        .main-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            perspective: 2000px;
-        }
-
-        .ring-container {
-            position: relative;
-            width: 80vmin;
-            height: 80vmin;
-            max-width: 800px;
-            max-height: 800px;
-            transform-style: preserve-3d;
-            transform: rotateX(60deg);
-        }
-
-        .center-content {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) rotateX(-60deg);
-            text-align: center;
-            z-index: 100;
-        }
-
-        .center-title {
-            font-size: clamp(2.5rem, 6vw, 5rem);
-            font-weight: 200;
-            color: #333;
-            opacity: 0;
-            animation: fadeIn 2s ease 1.5s forwards;
-        }
-
-        @keyframes fadeIn {
-            to { opacity: 1; }
-        }
-
-        /* Controls */
-        .controls {
-            position: fixed;
-            bottom: 50px;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            gap: 20px;
-            z-index: 1000;
-        }
-
-        .control-btn {
-            padding: 15px 25px;
-            background: rgba(255, 255, 255, 0.9);
-            border: none;
-            border-radius: 30px;
-            color: #333;
-            cursor: none;
-            transition: all 0.3s ease;
-        }
     </style>
 </head>
 <body>
@@ -372,7 +198,6 @@
     <!-- Welcome Screen -->
     <div class="welcome-screen" id="welcomeScreen">
         <div class="envelope-container" id="envelopeContainer">
-            <div class="envelope-closed"></div>
             <div class="envelope-opened"></div>
             <div class="envelope-letter">
                 <h1 class="letter-title">Bienvenido</h1>
@@ -380,120 +205,41 @@
                 <button class="letter-button" id="enterButton">ENTRAR</button>
             </div>
             <div class="envelope-flap-front"></div>
+            <div class="envelope-closed"></div>
             <div class="envelope-instruction">Haz click para abrir</div>
         </div>
     </div>
 
-    <!-- Loading Screen -->
-    <div class="loading-screen" id="loadingScreen">
-        <div class="loading-content">
-            <div class="loading-title">Cargando Portafolio</div>
-            <div class="loading-bar">
-                <div class="loading-progress" id="loadingProgress"></div>
-            </div>
-            <div class="loading-counter" id="loadingCounter">0%</div>
-        </div>
-    </div>
-
-    <!-- Header -->
-    <header class="header">
-        <nav class="nav">
-            <a href="#" class="logo">PORTAFOLIO</a>
-            <ul class="nav-links">
-                <li><a href="#work">Trabajo</a></li>
-                <li><a href="#about">Acerca</a></li>
-                <li><a href="#contact">Contacto</a></li>
-            </ul>
-        </nav>
-    </header>
-
-    <!-- Main Container -->
-    <div class="main-container">
-        <div class="ring-container" id="ringContainer">
-            <div class="center-content">
-                <h1 class="center-title">Mi Trabajo.</h1>
-            </div>
-        </div>
-    </div>
-
-    <!-- Controls -->
-    <div class="controls">
-        <button class="control-btn">🔄 Rotación</button>
-        <button class="control-btn">⏸ Pausar</button>
-    </div>
-
     <script>
-        function showWelcomeScreen() {
-            const envelopeContainer = document.getElementById('envelopeContainer');
-            const enterButton = document.getElementById('enterButton');
-            
-            envelopeContainer.addEventListener('click', (e) => {
-                if (!envelopeContainer.classList.contains('opened')) {
-                    envelopeContainer.classList.add('opened');
-                    e.stopPropagation();
-                }
-            });
-            
-            enterButton.addEventListener('click', (e) => {
+        // Cursor personalizado
+        const cursor = document.getElementById('customCursor');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        document.addEventListener('mouseover', (e) => {
+            if (e.target.closest('button') || e.target.closest('.envelope-container')) {
+                cursor.classList.add('hover');
+            } else {
+                cursor.classList.remove('hover');
+            }
+        });
+
+        // Funcionalidad del sobre
+        const envelopeContainer = document.getElementById('envelopeContainer');
+        const enterButton = document.getElementById('enterButton');
+        
+        envelopeContainer.addEventListener('click', (e) => {
+            if (!envelopeContainer.classList.contains('opened')) {
+                envelopeContainer.classList.add('opened');
                 e.stopPropagation();
-                document.getElementById('welcomeScreen').classList.add('hidden');
-                setTimeout(() => startLoading(), 500);
-            });
-        }
-
-        function startLoading() {
-            let progress = 0;
-            const progressBar = document.getElementById('loadingProgress');
-            const counter = document.getElementById('loadingCounter');
-            
-            const interval = setInterval(() => {
-                progress += Math.random() * 3;
-                if (progress > 100) progress = 100;
-                
-                progressBar.style.width = progress + '%';
-                counter.textContent = Math.floor(progress) + '%';
-                
-                if (progress >= 100) {
-                    clearInterval(interval);
-                    setTimeout(() => {
-                        document.getElementById('loadingScreen').classList.add('hidden');
-                    }, 800);
-                }
-            }, 50);
-        }
-
-        function setupCustomCursor() {
-            const cursor = document.getElementById('customCursor');
-            
-            document.addEventListener('mousemove', (e) => {
-                cursor.style.left = e.clientX + 'px';
-                cursor.style.top = e.clientY + 'px';
-            });
-            
-            document.addEventListener('mouseover', (e) => {
-                if (e.target.closest('button') || e.target.closest('.envelope-container')) {
-                    cursor.classList.add('hover');
-                } else {
-                    cursor.classList.remove('hover');
-                }
-            });
-            
-            const welcomeScreen = document.getElementById('welcomeScreen');
-            const observer = new MutationObserver(() => {
-                if (!welcomeScreen.classList.contains('hidden')) {
-                    cursor.classList.add('dark-mode');
-                } else {
-                    cursor.classList.remove('dark-mode');
-                }
-            });
-            observer.observe(welcomeScreen, { attributes: true, attributeFilter: ['class'] });
-            
-            cursor.classList.add('dark-mode');
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            setupCustomCursor();
-            showWelcomeScreen();
+            }
+        });
+        
+        enterButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            alert('Aquí iría la transición al portafolio completo');
         });
     </script>
 </body>

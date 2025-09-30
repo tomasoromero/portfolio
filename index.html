@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bienvenido - Portafolio</title>
+    <title>Mi Portafolio 3D</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -13,169 +14,11 @@
 
         body {
             font-family: 'Helvetica Neue', Arial, sans-serif;
-            background: linear-gradient(to bottom, #1e5aa8 0%, #4a9fd8 50%, #87ceeb 100%);
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             overflow: hidden;
             height: 100vh;
+            color: #333;
             cursor: none;
-            position: relative;
-        }
-
-        /* Nubes animadas */
-        .clouds-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            z-index: 1;
-        }
-
-        .cloud {
-            position: absolute;
-            background: rgba(255, 255, 255, 0.8);
-            border-radius: 100px;
-            opacity: 0.7;
-        }
-
-        .cloud::before,
-        .cloud::after {
-            content: '';
-            position: absolute;
-            background: rgba(255, 255, 255, 0.8);
-            border-radius: 100px;
-        }
-
-        .cloud-1 {
-            width: 120px;
-            height: 40px;
-            top: 15%;
-            left: -150px;
-            animation: float-right 80s linear infinite;
-        }
-
-        .cloud-1::before {
-            width: 50px;
-            height: 50px;
-            top: -25px;
-            left: 15px;
-        }
-
-        .cloud-1::after {
-            width: 60px;
-            height: 40px;
-            top: -15px;
-            right: 20px;
-        }
-
-        .cloud-2 {
-            width: 100px;
-            height: 35px;
-            top: 35%;
-            right: -120px;
-            animation: float-left 90s linear infinite;
-            animation-delay: -20s;
-        }
-
-        .cloud-2::before {
-            width: 45px;
-            height: 45px;
-            top: -20px;
-            left: 10px;
-        }
-
-        .cloud-2::after {
-            width: 55px;
-            height: 35px;
-            top: -12px;
-            right: 15px;
-        }
-
-        .cloud-3 {
-            width: 140px;
-            height: 45px;
-            top: 60%;
-            left: -180px;
-            animation: float-right 100s linear infinite;
-            animation-delay: -40s;
-        }
-
-        .cloud-3::before {
-            width: 60px;
-            height: 55px;
-            top: -28px;
-            left: 20px;
-        }
-
-        .cloud-3::after {
-            width: 70px;
-            height: 45px;
-            top: -18px;
-            right: 25px;
-        }
-
-        .cloud-4 {
-            width: 110px;
-            height: 38px;
-            top: 25%;
-            right: -140px;
-            animation: float-left 85s linear infinite;
-            animation-delay: -60s;
-        }
-
-        .cloud-4::before {
-            width: 48px;
-            height: 48px;
-            top: -22px;
-            left: 12px;
-        }
-
-        .cloud-4::after {
-            width: 58px;
-            height: 38px;
-            top: -14px;
-            right: 18px;
-        }
-
-        .cloud-5 {
-            width: 130px;
-            height: 42px;
-            top: 75%;
-            left: -160px;
-            animation: float-right 95s linear infinite;
-            animation-delay: -30s;
-        }
-
-        .cloud-5::before {
-            width: 55px;
-            height: 52px;
-            top: -26px;
-            left: 18px;
-        }
-
-        .cloud-5::after {
-            width: 65px;
-            height: 42px;
-            top: -16px;
-            right: 22px;
-        }
-
-        @keyframes float-right {
-            0% {
-                transform: translateX(0);
-            }
-            100% {
-                transform: translateX(calc(100vw + 200px));
-            }
-        }
-
-        @keyframes float-left {
-            0% {
-                transform: translateX(0);
-            }
-            100% {
-                transform: translateX(calc(-100vw - 200px));
-            }
         }
 
         /* Custom Cursor */
@@ -196,28 +39,124 @@
             transform: scale(1.5);
         }
 
-        /* Welcome Screen */
+        /* Welcome Screen con cielo y nubes */
         .welcome-screen {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
+            background: linear-gradient(to bottom, #1e5aa8 0%, #4a9fd8 50%, #87ceeb 100%);
             display: flex;
             align-items: center;
             justify-content: center;
             z-index: 15000;
+            transition: opacity 1s ease, visibility 1s ease;
         }
 
-        /* Contenedor principal - basado en el sobre cerrado */
+        .welcome-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        /* Nubes tipo humo */
+        .clouds-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .cloud {
+            position: absolute;
+            background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.3) 40%, transparent 70%);
+            filter: blur(30px);
+            border-radius: 50%;
+        }
+
+        .cloud-1 {
+            width: 400px;
+            height: 200px;
+            top: 10%;
+            left: -400px;
+            animation: float-right 120s linear infinite;
+        }
+
+        .cloud-2 {
+            width: 450px;
+            height: 220px;
+            top: 30%;
+            right: -450px;
+            animation: float-left 140s linear infinite;
+            animation-delay: -30s;
+        }
+
+        .cloud-3 {
+            width: 500px;
+            height: 250px;
+            top: 55%;
+            left: -500px;
+            animation: float-right 160s linear infinite;
+            animation-delay: -60s;
+        }
+
+        .cloud-4 {
+            width: 380px;
+            height: 190px;
+            top: 20%;
+            right: -380px;
+            animation: float-left 130s linear infinite;
+            animation-delay: -90s;
+        }
+
+        .cloud-5 {
+            width: 420px;
+            height: 210px;
+            top: 70%;
+            left: -420px;
+            animation: float-right 150s linear infinite;
+            animation-delay: -45s;
+        }
+
+        .cloud-6 {
+            width: 460px;
+            height: 230px;
+            top: 45%;
+            right: -460px;
+            animation: float-left 135s linear infinite;
+            animation-delay: -75s;
+        }
+
+        @keyframes float-right {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(calc(100vw + 500px));
+            }
+        }
+
+        @keyframes float-left {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(calc(-100vw - 500px));
+            }
+        }
+
+        /* Contenedor del sobre */
         .envelope-container {
             position: relative;
             width: 800px;
             height: 550px;
             cursor: none;
+            z-index: 10;
         }
 
-        /* Sobre cerrado - BASE DE REFERENCIA */
         .envelope-closed {
             position: absolute;
             width: 100%;
@@ -238,7 +177,6 @@
             pointer-events: none;
         }
 
-        /* Sobre abierto - más alto por la tapa, alineado por el cuerpo */
         .envelope-opened {
             position: absolute;
             width: 100%;
@@ -258,7 +196,6 @@
             opacity: 1;
         }
 
-        /* Tapa frontal - más ancha por las tapas laterales, centrada */
         .envelope-flap-front {
             position: absolute;
             width: 100%;
@@ -278,7 +215,6 @@
             opacity: 1;
         }
 
-        /* Papel carta - alineado con la base del sobre rojo */
         .envelope-letter {
             position: absolute;
             width: 76%;
@@ -306,7 +242,6 @@
             text-align: center;
         }
 
-        /* Texto en el papel */
         .letter-title {
             font-size: clamp(2.2rem, 4.5vw, 3.5rem);
             font-weight: 200;
@@ -362,6 +297,493 @@
             opacity: 0;
         }
 
+        /* Loading Screen */
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            transition: all 1s ease;
+        }
+
+        .loading-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        .loading-content {
+            text-align: center;
+        }
+
+        .loading-title {
+            font-size: clamp(2rem, 5vw, 4rem);
+            font-weight: 200;
+            color: #333;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+
+        .loading-bar {
+            width: 300px;
+            height: 2px;
+            background: rgba(0, 0, 0, 0.1);
+            margin: 0 auto;
+            overflow: hidden;
+            border-radius: 1px;
+        }
+
+        .loading-progress {
+            height: 100%;
+            background: #333;
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .loading-counter {
+            margin-top: 20px;
+            font-size: 14px;
+            color: #666;
+            font-weight: 300;
+        }
+
+        /* Header */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            padding: 25px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .nav {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 300;
+            color: #333;
+            text-decoration: none;
+            letter-spacing: 2px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 40px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #333;
+            font-weight: 300;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            opacity: 0.8;
+        }
+
+        .nav-links a:hover {
+            opacity: 1;
+            transform: translateY(-2px);
+        }
+
+        /* Main Container */
+        .main-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            perspective: 2000px;
+        }
+
+        /* 3D Ring Container */
+        .ring-container {
+            position: relative;
+            width: 80vmin;
+            height: 80vmin;
+            max-width: 800px;
+            max-height: 800px;
+            transform-style: preserve-3d;
+            transition: transform 0.1s ease-out;
+            transform: rotateX(60deg);
+        }
+
+        /* Center Content */
+        .center-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotateX(-60deg);
+            text-align: center;
+            z-index: 100;
+            pointer-events: none;
+        }
+
+        .center-title {
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-weight: 200;
+            color: #333;
+            margin-bottom: 15px;
+            letter-spacing: -2px;
+            opacity: 0;
+            animation: fadeInCenter 2s ease 1.5s forwards;
+        }
+
+        .center-subtitle {
+            font-size: clamp(1rem, 2vw, 1.4rem);
+            color: #666;
+            font-weight: 300;
+            letter-spacing: 1px;
+            opacity: 0;
+            animation: fadeInCenter 2s ease 2s forwards;
+        }
+
+        /* Center Preview */
+        .center-preview {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotateX(-60deg);
+            width: 200px;
+            height: 120px;
+            border-radius: 12px;
+            overflow: hidden;
+            opacity: 0;
+            transition: all 0.4s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            z-index: 150;
+        }
+
+        .center-preview.visible {
+            opacity: 1;
+        }
+
+        .center-preview img,
+        .center-preview video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 12px;
+        }
+
+        .preview-title {
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%) rotateX(60deg);
+            color: #333;
+            font-size: 14px;
+            font-weight: 500;
+            text-align: center;
+            white-space: nowrap;
+        }
+
+        /* Project Items */
+        .project-item {
+            position: absolute;
+            width: 120px;
+            height: 80px;
+            border-radius: 12px;
+            overflow: hidden;
+            cursor: none;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            transform-style: preserve-3d;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            opacity: 0;
+            transform: scale(0.8) translateZ(-50px) rotateX(-60deg);
+            will-change: transform, box-shadow;
+        }
+
+        .project-item.loaded {
+            opacity: 1;
+            transform: scale(1) translateZ(0px) rotateX(-60deg);
+        }
+
+        .project-item:hover {
+            transform: scale(1.2) translateZ(40px) rotateX(-60deg);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            z-index: 50;
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        .project-item::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            border-radius: 15px;
+            background: linear-gradient(45deg, 
+                rgba(255, 255, 255, 0.2), 
+                rgba(255, 255, 255, 0.1), 
+                transparent
+            );
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: -1;
+        }
+
+        .project-item:hover::before {
+            opacity: 1;
+        }
+
+        .project-item img,
+        .project-item video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            border-radius: 12px;
+        }
+
+        .project-item:hover img,
+        .project-item:hover video {
+            filter: brightness(1.15) contrast(1.08) saturate(1.15);
+            transform: scale(1.05);
+        }
+
+        .play-overlay {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 35px;
+            height: 35px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            pointer-events: none;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .project-item:hover .play-overlay {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1.1);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .play-icon {
+            width: 0;
+            height: 0;
+            border-left: 10px solid #333;
+            border-top: 6px solid transparent;
+            border-bottom: 6px solid transparent;
+            margin-left: 3px;
+        }
+
+        .project-info {
+            position: absolute;
+            bottom: -65px;
+            left: 50%;
+            transform: translateX(-50%) rotateX(60deg);
+            background: rgba(0, 0, 0, 0.92);
+            color: white;
+            padding: 12px 18px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 400;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            z-index: 100;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .project-info::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-bottom: 8px solid rgba(0, 0, 0, 0.92);
+        }
+
+        .project-item:hover .project-info {
+            opacity: 1;
+            transform: translateX(-50%) translateY(-20px) rotateX(60deg);
+        }
+
+        .project-item:hover {
+            filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.3));
+        }
+
+        /* Center Display Modal */
+        .center-display {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+            backdrop-filter: blur(20px);
+        }
+
+        .center-display.visible {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .center-media {
+            max-width: 80vw;
+            max-height: 80vh;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            transform: scale(0.8);
+            transition: transform 0.4s ease;
+        }
+
+        .center-display.visible .center-media {
+            transform: scale(1);
+        }
+
+        .center-media img,
+        .center-media video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            border-radius: 12px;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 24px;
+            cursor: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .close-btn:hover {
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(1.1);
+        }
+
+        .media-title {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 24px;
+            font-weight: 300;
+            text-align: center;
+        }
+
+        /* Controls */
+        .controls {
+            position: fixed;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            z-index: 1000;
+        }
+
+        .control-btn {
+            padding: 15px 25px;
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 30px;
+            color: #333;
+            cursor: none;
+            transition: all 0.3s ease;
+            font-weight: 300;
+            font-size: 14px;
+            letter-spacing: 1px;
+        }
+
+        .control-btn:hover {
+            background: rgba(255, 255, 255, 1);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        .control-btn.active {
+            background: #333;
+            color: white;
+        }
+
+        /* Background particles */
+        .particles-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: rgba(150, 150, 150, 0.8);
+            border-radius: 50%;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        /* Animations */
+        @keyframes fadeInCenter {
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+            50% {
+                transform: translateY(-10px) rotate(180deg);
+            }
+        }
+
         /* Responsive */
         @media (max-width: 900px) {
             .envelope-container {
@@ -369,29 +791,57 @@
                 height: calc(90vw * 0.6875);
             }
         }
+
+        @media (max-width: 768px) {
+            .nav {
+                padding: 0 20px;
+            }
+            
+            .nav-links {
+                gap: 20px;
+            }
+            
+            .ring-container {
+                width: 90vmin;
+                height: 90vmin;
+            }
+            
+            .project-item {
+                width: 90px;
+                height: 60px;
+            }
+            
+            .project-item:hover {
+                transform: scale(1.3) translateZ(30px) rotateX(-60deg);
+            }
+            
+            .controls {
+                bottom: 30px;
+                flex-direction: column;
+                align-items: center;
+            }
+        }
     </style>
 </head>
 <body>
     <div class="custom-cursor" id="customCursor"></div>
 
-    <!-- Nubes animadas -->
-    <div class="clouds-container">
-        <div class="cloud cloud-1"></div>
-        <div class="cloud cloud-2"></div>
-        <div class="cloud cloud-3"></div>
-        <div class="cloud cloud-4"></div>
-        <div class="cloud cloud-5"></div>
-    </div>
-
-    <!-- Welcome Screen -->
+    <!-- Welcome Screen con sobre -->
     <div class="welcome-screen" id="welcomeScreen">
+        <div class="clouds-container">
+            <div class="cloud cloud-1"></div>
+            <div class="cloud cloud-2"></div>
+            <div class="cloud cloud-3"></div>
+            <div class="cloud cloud-4"></div>
+            <div class="cloud cloud-5"></div>
+            <div class="cloud cloud-6"></div>
+        </div>
+        
         <div class="envelope-container" id="envelopeContainer">
-            <!-- Sobre abierto (fondo) -->
             <div class="envelope-opened">
                 <img src="https://github.com/tomasoromero/portfolio/raw/main/sobre-abierto.png" alt="">
             </div>
             
-            <!-- Papel carta -->
             <div class="envelope-letter">
                 <div class="letter-content">
                     <h1 class="letter-title">Bienvenido</h1>
@@ -400,12 +850,10 @@
                 </div>
             </div>
             
-            <!-- Tapa frontal -->
             <div class="envelope-flap-front">
                 <img src="https://github.com/tomasoromero/portfolio/raw/main/sobre-abierto-tapa.png" alt="">
             </div>
             
-            <!-- Sobre cerrado (capa superior inicial) -->
             <div class="envelope-closed">
                 <img src="https://github.com/tomasoromero/portfolio/raw/main/sobre-cerrado.png" alt="">
             </div>
@@ -414,8 +862,90 @@
         </div>
     </div>
 
+    <!-- Loading Screen -->
+    <div class="loading-screen hidden" id="loadingScreen">
+        <div class="loading-content">
+            <div class="loading-title">Cargando Portafolio</div>
+            <div class="loading-bar">
+                <div class="loading-progress" id="loadingProgress"></div>
+            </div>
+            <div class="loading-counter" id="loadingCounter">0%</div>
+        </div>
+    </div>
+
+    <!-- Particles Background -->
+    <div class="particles-container" id="particlesContainer"></div>
+
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav">
+            <a href="#" class="logo">PORTAFOLIO</a>
+            <ul class="nav-links">
+                <li><a href="#work">Trabajo</a></li>
+                <li><a href="#about">Acerca</a></li>
+                <li><a href="#contact">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <div class="ring-container" id="ringContainer">
+            <div class="center-content" id="centerContent">
+                <h1 class="center-title">Mi Trabajo.</h1>
+                <p class="center-subtitle">Creatividad Visual</p>
+            </div>
+
+            <div class="center-preview" id="centerPreview">
+                <div class="preview-title" id="previewTitle"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Center Display Modal -->
+    <div class="center-display" id="centerDisplay">
+        <button class="close-btn" id="closeBtn">×</button>
+        <div class="center-media" id="centerMedia"></div>
+        <div class="media-title" id="mediaTitle"></div>
+    </div>
+
+    <!-- Controls -->
+    <div class="controls">
+        <button class="control-btn" id="autoRotateBtn">🔄 Rotación Automática</button>
+        <button class="control-btn" id="pauseBtn">⏸ Pausar</button>
+    </div>
+
     <script>
-        // Cursor personalizado
+        // Project data
+        const projects = [
+            { title: "Urban Architecture", type: "image", src: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=600&h=400&fit=crop" },
+            { title: "Motion Graphics Reel", type: "video", src: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" },
+            { title: "Portrait Series", type: "image", src: "https://images.unsplash.com/photo-1558655146-d09347e92766?w=600&h=400&fit=crop" },
+            { title: "Brand Identity", type: "image", src: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=600&h=400&fit=crop" },
+            { title: "Commercial Spot", type: "video", src: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4" },
+            { title: "Landscape Photography", type: "image", src: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=400&fit=crop" },
+            { title: "Product Showcase", type: "image", src: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop" },
+            { title: "Documentary Film", type: "video", src: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" },
+            { title: "Street Photography", type: "image", src: "https://images.unsplash.com/photo-1551650975-87deedd944c3?w=600&h=400&fit=crop" },
+            { title: "Fashion Editorial", type: "image", src: "https://images.unsplash.com/photo-1511818966892-d7d671e672a2?w=600&h=400&fit=crop" },
+            { title: "Animation Project", type: "video", src: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4" },
+            { title: "Architectural Study", type: "image", src: "https://images.unsplash.com/photo-1586880244386-8b3e34c8382c?w=600&h=400&fit=crop" },
+            { title: "Corporate Video", type: "video", src: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4" },
+            { title: "Fine Art Collection", type: "image", src: "https://images.unsplash.com/photo-1489599185559-16007e6dab02?w=600&h=400&fit=crop" },
+            { title: "Nature Documentary", type: "image", src: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=600&h=400&fit=crop" },
+            { title: "Music Video", type: "video", src: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4" }
+        ];
+
+        // Global variables
+        let ringContainer;
+        let isAutoRotating = false;
+        let rotationSpeed = 0;
+        let targetRotationZ = 0;
+        let targetRotationX = 60;
+        let currentRotationZ = 0;
+        let currentRotationX = 60;
+
+        // Custom cursor functionality
         const cursor = document.getElementById('customCursor');
         document.addEventListener('mousemove', (e) => {
             cursor.style.left = e.clientX + 'px';
@@ -423,14 +953,14 @@
         });
 
         document.addEventListener('mouseover', (e) => {
-            if (e.target.closest('button') || e.target.closest('.envelope-container')) {
+            if (e.target.closest('button') || e.target.closest('.envelope-container') || e.target.closest('.project-item')) {
                 cursor.classList.add('hover');
             } else {
                 cursor.classList.remove('hover');
             }
         });
 
-        // Funcionalidad del sobre
+        // Envelope functionality
         const envelopeContainer = document.getElementById('envelopeContainer');
         const enterButton = document.getElementById('enterButton');
         
@@ -443,7 +973,321 @@
         
         enterButton.addEventListener('click', (e) => {
             e.stopPropagation();
-            alert('Aquí iría la transición al portafolio completo');
+            const welcomeScreen = document.getElementById('welcomeScreen');
+            welcomeScreen.classList.add('hidden');
+            setTimeout(() => {
+                startLoading();
+            }, 1000);
+        });
+
+        // Loading functionality
+        function startLoading() {
+            const loadingScreen = document.getElementById('loadingScreen');
+            loadingScreen.classList.remove('hidden');
+            
+            let progress = 0;
+            const progressBar = document.getElementById('loadingProgress');
+            const counter = document.getElementById('loadingCounter');
+            
+            const loadingInterval = setInterval(() => {
+                progress += Math.random() * 3;
+                if (progress > 100) progress = 100;
+                
+                progressBar.style.width = progress + '%';
+                counter.textContent = Math.floor(progress) + '%';
+                
+                if (progress >= 100) {
+                    clearInterval(loadingInterval);
+                    setTimeout(finishLoading, 800);
+                }
+            }, 50);
+        }
+
+        function finishLoading() {
+            const loadingScreen = document.getElementById('loadingScreen');
+            loadingScreen.classList.add('hidden');
+            
+            setTimeout(() => {
+                createRing();
+                createParticles();
+                startAnimation();
+            }, 300);
+        }
+
+        // Create 3D ring of projects
+        function createRing() {
+            ringContainer = document.getElementById('ringContainer');
+            const numItems = projects.length;
+            const radius = 42;
+            
+            projects.forEach((project, index) => {
+                const angle = (index / numItems) * 360;
+                const radian = (angle * Math.PI) / 180;
+                
+                const x = 50 + radius * Math.cos(radian);
+                const y = 50 + radius * Math.sin(radian);
+                
+                const projectItem = document.createElement('div');
+                projectItem.className = 'project-item';
+                projectItem.style.left = `${x}%`;
+                projectItem.style.top = `${y}%`;
+                projectItem.style.transform = `translate(-50%, -50%) translateZ(0px) rotateX(-60deg)`;
+                
+                let mediaElement;
+                if (project.type === 'video') {
+                    mediaElement = document.createElement('video');
+                    mediaElement.src = project.src;
+                    mediaElement.muted = true;
+                    mediaElement.loop = true;
+                    mediaElement.playsInline = true;
+                    
+                    const playOverlay = document.createElement('div');
+                    playOverlay.className = 'play-overlay';
+                    playOverlay.innerHTML = '<div class="play-icon"></div>';
+                    projectItem.appendChild(playOverlay);
+                } else {
+                    mediaElement = document.createElement('img');
+                    mediaElement.src = project.src;
+                    mediaElement.alt = project.title;
+                }
+                
+                projectItem.appendChild(mediaElement);
+                
+                const info = document.createElement('div');
+                info.className = 'project-info';
+                info.textContent = project.title;
+                projectItem.appendChild(info);
+                
+                projectItem.addEventListener('mouseenter', () => {
+                    const radialX = Math.cos(radian) * 25;
+                    const radialY = Math.sin(radian) * 25;
+                    projectItem.style.transform = `translate(-50%, -50%) translateZ(40px) rotateX(-60deg) translate(${radialX}px, ${radialY}px) scale(1.2)`;
+                    
+                    showPreview(project);
+                    if (mediaElement.tagName === 'VIDEO') {
+                        mediaElement.play().catch(e => console.log('Video play failed'));
+                    }
+                });
+                
+                projectItem.addEventListener('mouseleave', () => {
+                    projectItem.style.transform = `translate(-50%, -50%) translateZ(0px) rotateX(-60deg) scale(1)`;
+                    hidePreview();
+                    if (mediaElement.tagName === 'VIDEO') {
+                        mediaElement.pause();
+                        mediaElement.currentTime = 0;
+                    }
+                });
+                
+                projectItem.addEventListener('click', () => {
+                    showCenterDisplay(project);
+                });
+                
+                ringContainer.appendChild(projectItem);
+                
+                setTimeout(() => {
+                    projectItem.classList.add('loaded');
+                }, index * 100);
+            });
+        }
+
+        function showPreview(project) {
+            const centerPreview = document.getElementById('centerPreview');
+            const centerContent = document.getElementById('centerContent');
+            
+            centerContent.style.opacity = '0';
+            centerPreview.innerHTML = '';
+            
+            let previewMedia;
+            if (project.type === 'video') {
+                previewMedia = document.createElement('video');
+                previewMedia.src = project.src;
+                previewMedia.muted = true;
+                previewMedia.loop = true;
+                previewMedia.playsInline = true;
+                previewMedia.autoplay = true;
+            } else {
+                previewMedia = document.createElement('img');
+                previewMedia.src = project.src;
+                previewMedia.alt = project.title;
+            }
+            
+            centerPreview.appendChild(previewMedia);
+            
+            const titleElement = document.createElement('div');
+            titleElement.className = 'preview-title';
+            titleElement.textContent = project.title;
+            centerPreview.appendChild(titleElement);
+            
+            centerPreview.classList.add('visible');
+        }
+
+        function hidePreview() {
+            const centerPreview = document.getElementById('centerPreview');
+            const centerContent = document.getElementById('centerContent');
+            
+            centerPreview.classList.remove('visible');
+            centerContent.style.opacity = '1';
+            
+            const video = centerPreview.querySelector('video');
+            if (video) {
+                video.pause();
+            }
+        }
+
+        function showCenterDisplay(project) {
+            const centerDisplay = document.getElementById('centerDisplay');
+            const centerMedia = document.getElementById('centerMedia');
+            const mediaTitle = document.getElementById('mediaTitle');
+            
+            centerMedia.innerHTML = '';
+            
+            let newMediaElement;
+            if (project.type === 'video') {
+                newMediaElement = document.createElement('video');
+                newMediaElement.src = project.src;
+                newMediaElement.controls = true;
+                newMediaElement.autoplay = true;
+                newMediaElement.loop = true;
+            } else {
+                newMediaElement = document.createElement('img');
+                newMediaElement.src = project.src;
+                newMediaElement.alt = project.title;
+            }
+            
+            centerMedia.appendChild(newMediaElement);
+            mediaTitle.textContent = project.title;
+            
+            centerDisplay.classList.add('visible');
+            
+            const wasAutoRotating = isAutoRotating;
+            if (isAutoRotating) {
+                pauseRotation();
+            }
+            
+            centerDisplay.wasAutoRotating = wasAutoRotating;
+        }
+
+        function hideCenterDisplay() {
+            const centerDisplay = document.getElementById('centerDisplay');
+            const centerMedia = document.getElementById('centerMedia');
+            
+            centerDisplay.classList.remove('visible');
+            
+            const video = centerMedia.querySelector('video');
+            if (video) {
+                video.pause();
+            }
+            
+            if (centerDisplay.wasAutoRotating) {
+                toggleAutoRotate();
+            }
+        }
+
+        function setupWheelControl() {
+            document.addEventListener('wheel', (e) => {
+                e.preventDefault();
+                
+                if (isAutoRotating) {
+                    pauseRotation();
+                }
+                
+                const direction = e.deltaY > 0 ? 1 : -1;
+                targetRotationZ += direction * 5;
+            }, { passive: false });
+        }
+
+        function createParticles() {
+            const container = document.getElementById('particlesContainer');
+            const numParticles = 150;
+            
+            for (let i = 0; i < numParticles; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = (Math.random() * 4 + 4) + 's';
+                
+                const grayValue = 100 + Math.random() * 100;
+                particle.style.background = `rgba(${grayValue}, ${grayValue}, ${grayValue}, 0.8)`;
+                particle.style.width = (2 + Math.random() * 3) + 'px';
+                particle.style.height = particle.style.width;
+                
+                container.appendChild(particle);
+            }
+        }
+
+        function animate() {
+            if (isAutoRotating) {
+                rotationSpeed += 0.3;
+                targetRotationZ = rotationSpeed;
+            }
+            
+            currentRotationZ += (targetRotationZ - currentRotationZ) * 0.05;
+            currentRotationX += (targetRotationX - currentRotationX) * 0.05;
+            
+            if (ringContainer) {
+                ringContainer.style.transform = `rotateX(${currentRotationX}deg) rotateZ(${currentRotationZ}deg)`;
+            }
+            
+            requestAnimationFrame(animate);
+        }
+
+        function startAnimation() {
+            setupWheelControl();
+            animate();
+            
+            setTimeout(() => {
+                if (!isAutoRotating) {
+                    toggleAutoRotate();
+                }
+            }, 3000);
+        }
+
+        function toggleAutoRotate() {
+            isAutoRotating = !isAutoRotating;
+            const btn = document.getElementById('autoRotateBtn');
+            
+            if (isAutoRotating) {
+                btn.classList.add('active');
+                btn.textContent = '🔄 Rotando...';
+            } else {
+                btn.classList.remove('active');
+                btn.textContent = '🔄 Rotación Automática';
+            }
+        }
+
+        function pauseRotation() {
+            isAutoRotating = false;
+            rotationSpeed = 0;
+            
+            const autoRotateBtn = document.getElementById('autoRotateBtn');
+            autoRotateBtn.classList.remove('active');
+            autoRotateBtn.textContent = '🔄 Rotación Automática';
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            const autoRotateBtn = document.getElementById('autoRotateBtn');
+            const pauseBtn = document.getElementById('pauseBtn');
+            const closeBtn = document.getElementById('closeBtn');
+            const centerDisplay = document.getElementById('centerDisplay');
+            
+            autoRotateBtn.addEventListener('click', toggleAutoRotate);
+            pauseBtn.addEventListener('click', pauseRotation);
+            closeBtn.addEventListener('click', hideCenterDisplay);
+            
+            centerDisplay.addEventListener('click', (e) => {
+                if (e.target === centerDisplay) {
+                    hideCenterDisplay();
+                }
+            });
+            
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && centerDisplay.classList.contains('visible')) {
+                    hideCenterDisplay();
+                }
+            });
         });
     </script>
 </body>

@@ -97,26 +97,26 @@
         /* Papel carta - sale desde la base del sobre */
         .envelope-letter {
             position: absolute;
-            width: 79%;
-            height: 85%;
-            left: 10.5%;
-            bottom: 2%;
+            width: 76%;
+            height: 82%;
+            left: 12%;
+            bottom: 5%;
             background-image: url('https://github.com/tomasoromero/portfolio/raw/main/papel-carta.png');
             background-size: cover;
             background-repeat: no-repeat;
             background-position: center;
             z-index: 2;
-            padding: 140px 80px 60px 80px;
+            padding: 100px 70px 80px 70px;
             text-align: center;
             display: flex;
             flex-direction: column;
             justify-content: flex-start;
-            transform: translateY(100%);
-            transition: transform 1.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            clip-path: inset(100% 0 0 0);
+            transition: clip-path 1.8s cubic-bezier(0.34, 1.56, 0.64, 1);
         }
 
         .envelope-container.opened .envelope-letter {
-            transform: translateY(0);
+            clip-path: inset(0 0 0 0);
         }
 
         /* Tapa frontal - MISMO TAMAÑO que sobre cerrado */

@@ -428,14 +428,14 @@ const initialAngle = (index / numItems) * 360;
             max-height: 800px;
             transform-style: preserve-3d;
             transition: transform 0.1s ease-out;
-            transform: rotateX(60deg) rotateZ(0deg);
+            transform: rotateX(75deg) rotateZ(0deg);
         }
 
         .center-content {
             position: absolute;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%) rotateX(-60deg);
+            transform: translate(-50%, -50%) rotateX(-75deg);
             text-align: center;
             z-index: 100;
             pointer-events: none;
@@ -464,7 +464,7 @@ const initialAngle = (index / numItems) * 360;
             position: absolute;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%) rotateX(-60deg);
+            transform: translate(-50%, -50%) rotateX(-75deg);
             width: 200px;
             height: 120px;
             border-radius: 12px;
@@ -491,7 +491,7 @@ const initialAngle = (index / numItems) * 360;
             position: absolute;
             bottom: -30px;
             left: 50%;
-            transform: translateX(-50%) rotateX(60deg);
+            transform: translateX(-50%) rotateX(75deg);
             color: #333;
             font-size: 14px;
             font-weight: 500;
@@ -596,7 +596,7 @@ const initialAngle = (index / numItems) * 360;
             position: absolute;
             bottom: -65px;
             left: 50%;
-            transform: translateX(-50%) rotateX(60deg);
+            transform: translateX(-50%) rotateX(75deg);
             background: rgba(0, 0, 0, 0.92);
             color: white;
             padding: 12px 18px;
@@ -628,7 +628,7 @@ const initialAngle = (index / numItems) * 360;
 
         .project-item:hover .project-info {
             opacity: 1;
-            transform: translateX(-50%) translateY(-20px) rotateX(60deg);
+            transform: translateX(-50%) translateY(-20px) rotateX(75deg);
         }
 
         .center-display {
@@ -1013,7 +1013,7 @@ const initialAngle = (index / numItems) * 360;
                     const radialX = Math.cos(radian) * 25;
                     const radialY = Math.sin(radian) * 25;
                     
-                    projectItem.style.transform = `translate(-50%, -50%) rotateX(-60deg) translateZ(50px) scale(1.3) translate(${radialX}px, ${radialY}px)`;
+                    projectItem.style.transform = `translate(-50%, -50%) rotateX(-75deg) translateZ(50px) scale(1.3) translate(${radialX}px, ${radialY}px)`;
                     
                     showPreview(project);
                     if (mediaElement.tagName === 'VIDEO') {
@@ -1027,7 +1027,7 @@ const initialAngle = (index / numItems) * 360;
                     const x = 50 + radius * Math.cos(radian);
                     const y = 50 + radius * Math.sin(radian);
                     
-                    projectItem.style.transform = `translate(-50%, -50%) rotateX(-60deg) translateZ(0px) scale(1)`;
+                    projectItem.style.transform = `translate(-50%, -50%) rotateX(-75deg) translateZ(0px) scale(1)`;
                     projectItem.style.left = `${x}%`;
                     projectItem.style.top = `${y}%`;
                     
@@ -1200,7 +1200,7 @@ const initialAngle = (index / numItems) * 360;
                 
                 item.style.left = `${x}%`;
                 item.style.top = `${y}%`;
-                item.style.transform = `translate(-50%, -50%) rotateX(-60deg) translateZ(0px) scale(1)`;
+                item.style.transform = `translate(-50%, -50%) rotateX(-75deg) translateZ(0px) scale(1)`;
             });
             
             requestAnimationFrame(animate);

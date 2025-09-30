@@ -531,7 +531,6 @@ const initialAngle = (index / numItems) * 360;
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
             z-index: 50;
             filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.3));
-            transform: scale(1.3) translateZ(50px) !important;
         }
 
         .project-item::before {
@@ -1036,10 +1035,15 @@ const initialAngle = (index / numItems) * 360;
                 projectItem.addEventListener('mouseenter', () => {
                     const currentAngle = parseFloat(projectItem.dataset.baseAngle) + currentItemRotation;
                     const radian = (currentAngle * Math.PI) / 180;
-                    const radialX = Math.cos(radian) * 25;
-                    const radialY = Math.sin(radian) * 25;
                     
-                    projectItem.style.transform = `translate(-50%, -50%) rotateX(-60deg) rotateY(${currentAngle}deg) translateZ(50px) scale(1.3) translate(${radialX}px, ${radialY}px)`;
+                    // Calcular dirección radial para mover hacia afuera
+                    const radialX = Math.cos(radian) * 40;
+                    const radialY = Math.sin(radian) * 40;
+                    
+                    // Limitar rotación Y entre -90 y 90 grados
+                    const limitedAngle = Math.max(-90, Math.min(90, currentAngle % 360));
+                    
+                    projectItem.style.transform = `translate(-50%, -50%) rotateX(-60deg) rotateY(${limitedAngle}deg) translateZ(30px) scale(1.15) translate(${radialX}px, ${radialY}px)`;
                     
                     showPreview(project);
                     if (mediaElement.tagName === 'VIDEO') {
@@ -1053,7 +1057,10 @@ const initialAngle = (index / numItems) * 360;
                     const x = 50 + radius * Math.cos(radian);
                     const y = 50 + radius * Math.sin(radian);
                     
-                    projectItem.style.transform = `translate(-50%, -50%) rotateX(-60deg) rotateY(${currentAngle}deg) translateZ(0px) scale(1)`;
+                    // Limitar rotación Y entre -90 y 90 grados
+                    const limitedAngle = Math.max(-90, Math.min(90, currentAngle % 360));
+                    
+                    projectItem.style.transform = `translate(-50%, -50%) rotateX(-60deg) rotateY(${limitedAngle}deg) translateZ(0px) scale(1)`;
                     projectItem.style.left = `${x}%`;
                     projectItem.style.top = `${y}%`;
                     
@@ -1233,9 +1240,12 @@ const initialAngle = (index / numItems) * 360;
                 const x = 50 + radius * Math.cos(radian);
                 const y = 50 + radius * Math.sin(radian);
                 
+                // Limitar rotación Y entre -90 y 90 grados para evitar que se topen
+                const limitedAngle = Math.max(-90, Math.min(90, angle % 360));
+                
                 item.style.left = `${x}%`;
                 item.style.top = `${y}%`;
-                item.style.transform = `translate(-50%, -50%) rotateX(-60deg) rotateY(${angle}deg) translateZ(0px) scale(1)`;
+                item.style.transform = `translate(-50%, -50%) rotateX(-60deg) rotateY(${limitedAngle}deg) translateZ(0px) scale(1)`;
             });
             
             requestAnimationFrame(animate);

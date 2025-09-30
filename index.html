@@ -438,7 +438,7 @@
             max-height: 800px;
             transform-style: preserve-3d;
             transition: transform 0.1s ease-out;
-            transform: rotateX(60deg);
+            transform: rotateX(60deg) rotateZ(0deg);
         }
 
         /* Center Content */
@@ -523,13 +523,11 @@
             transform-style: preserve-3d;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
             opacity: 0;
-            transform: scale(0.8) translateZ(-50px) rotateX(-60deg);
             will-change: transform, box-shadow;
         }
 
         .project-item.loaded {
             opacity: 1;
-            transform: scale(1) translateZ(0px) rotateX(-60deg);
         }
 
         .project-item:hover {
@@ -1076,14 +1074,17 @@
                 const initialAngle = (index / numItems) * 360;
                 projectItem.dataset.baseAngle = initialAngle;
                 
+                // Calcular rotación Y basada en la posición en el círculo para efecto 3D
+                const rotateY = initialAngle;
+                
                 projectItem.addEventListener('mouseenter', () => {
                     const currentAngle = parseFloat(projectItem.dataset.baseAngle) + currentItemRotation;
                     const radian = (currentAngle * Math.PI) / 180;
                     const radialX = Math.cos(radian) * 25;
                     const radialY = Math.sin(radian) * 25;
+                    const currentRotateY = currentAngle;
                     
-                    const currentTransform = projectItem.style.transform;
-                    projectItem.style.transform = currentTransform.replace('scale(1)', 'scale(1.2)').replace('translateZ(0px)', 'translateZ(40px)') + ` translate(${radialX}px, ${radialY}px)`;
+                    projectItem.style.transform = `translate(-50%, -50%) rotateX(-60deg) rotateY(${currentRotateY}deg) translateZ(40px) scale(1.2) translate(${radialX}px, ${radialY}px)`;
                     
                     showPreview(project);
                     if (mediaElement.tagName === 'VIDEO') {
@@ -1096,8 +1097,9 @@
                     const radian = (currentAngle * Math.PI) / 180;
                     const x = 50 + radius * Math.cos(radian);
                     const y = 50 + radius * Math.sin(radian);
+                    const currentRotateY = currentAngle;
                     
-                    projectItem.style.transform = `translate(-50%, -50%) translateZ(0px) rotateX(-60deg) scale(1)`;
+                    projectItem.style.transform = `translate(-50%, -50%) rotateX(-60deg) rotateY(${currentRotateY}deg) translateZ(0px) scale(1)`;
                     projectItem.style.left = `${x}%`;
                     projectItem.style.top = `${y}%`;
                     
@@ -1272,8 +1274,10 @@
                 const x = 50 + radius * Math.cos(radian);
                 const y = 50 + radius * Math.sin(radian);
                 
+                // Apply position and 3D rotation
                 item.style.left = `${x}%`;
                 item.style.top = `${y}%`;
+                item.style.transform = `translate(-50%, -50%) rotateX(-60deg) rotateY(${angle}deg) translateZ(0px) scale(1)`;
             });
             
             requestAnimationFrame(animate);

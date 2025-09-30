@@ -46,7 +46,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(to bottom, #1e5aa8 0%, #4a9fd8 50%, #87ceeb 100%);
+            background: url('https://github.com/tomasoromero/portfolio/raw/main/cielo-fondo.jpg') center/cover;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -54,12 +54,23 @@
             transition: opacity 1s ease, visibility 1s ease;
         }
 
+        .welcome-screen::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.1);
+            z-index: 1;
+        }
+
         .welcome-screen.hidden {
             opacity: 0;
             visibility: hidden;
         }
 
-        /* Nubes tipo humo */
+        /* Nubes tipo humo - ahora más sutiles sobre la imagen */
         .clouds-container {
             position: fixed;
             top: 0;
@@ -67,13 +78,13 @@
             width: 100%;
             height: 100%;
             overflow: hidden;
-            z-index: 1;
+            z-index: 2;
         }
 
         .cloud {
             position: absolute;
-            background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.6) 0%, rgba(255, 255, 255, 0.3) 40%, transparent 70%);
-            filter: blur(30px);
+            background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.15) 40%, transparent 70%);
+            filter: blur(40px);
             border-radius: 50%;
         }
 
@@ -940,10 +951,9 @@
         let ringContainer;
         let isAutoRotating = false;
         let rotationSpeed = 0;
-        let targetRotationZ = 0;
-        let targetRotationX = 60;
-        let currentRotationZ = 0;
-        let currentRotationX = 60;
+        let itemRotation = 0; // Rotación de los items individuales
+        let targetItemRotation = 0;
+        let currentItemRotation = 0;
 
         // Custom cursor functionality
         const cursor = document.getElementById('customCursor');
@@ -1021,17 +1031,11 @@
             const radius = 42;
             
             projects.forEach((project, index) => {
-                const angle = (index / numItems) * 360;
-                const radian = (angle * Math.PI) / 180;
-                
-                const x = 50 + radius * Math.cos(radian);
-                const y = 50 + radius * Math.sin(radian);
-                
                 const projectItem = document.createElement('div');
                 projectItem.className = 'project-item';
-                projectItem.style.left = `${x}%`;
-                projectItem.style.top = `${y}%`;
-                projectItem.style.transform = `translate(-50%, -50%) translateZ(0px) rotateX(-60deg)`;
+                projectItem.dataset.index = index;
+                projectItem.dataset.numItems = numItems;
+                projectItem.dataset.radius = radius;
                 
                 let mediaElement;
                 if (project.type === 'video') {
@@ -1058,10 +1062,18 @@
                 info.textContent = project.title;
                 projectItem.appendChild(info);
                 
+                // Calcular el ángulo inicial del item
+                const initialAngle = (index / numItems) * 360;
+                projectItem.dataset.baseAngle = initialAngle;
+                
                 projectItem.addEventListener('mouseenter', () => {
+                    const currentAngle = parseFloat(projectItem.dataset.baseAngle) + currentItemRotation;
+                    const radian = (currentAngle * Math.PI) / 180;
                     const radialX = Math.cos(radian) * 25;
                     const radialY = Math.sin(radian) * 25;
-                    projectItem.style.transform = `translate(-50%, -50%) translateZ(40px) rotateX(-60deg) translate(${radialX}px, ${radialY}px) scale(1.2)`;
+                    
+                    const currentTransform = projectItem.style.transform;
+                    projectItem.style.transform = currentTransform.replace('scale(1)', 'scale(1.2)').replace('translateZ(0px)', 'translateZ(40px)') + ` translate(${radialX}px, ${radialY}px)`;
                     
                     showPreview(project);
                     if (mediaElement.tagName === 'VIDEO') {
@@ -1070,7 +1082,15 @@
                 });
                 
                 projectItem.addEventListener('mouseleave', () => {
+                    const currentAngle = parseFloat(projectItem.dataset.baseAngle) + currentItemRotation;
+                    const radian = (currentAngle * Math.PI) / 180;
+                    const x = 50 + radius * Math.cos(radian);
+                    const y = 50 + radius * Math.sin(radian);
+                    
                     projectItem.style.transform = `translate(-50%, -50%) translateZ(0px) rotateX(-60deg) scale(1)`;
+                    projectItem.style.left = `${x}%`;
+                    projectItem.style.top = `${y}%`;
+                    
                     hidePreview();
                     if (mediaElement.tagName === 'VIDEO') {
                         mediaElement.pause();
@@ -1192,7 +1212,7 @@
                 }
                 
                 const direction = e.deltaY > 0 ? 1 : -1;
-                targetRotationZ += direction * 5;
+                targetItemRotation += direction * 5;
             }, { passive: false });
         }
 
@@ -1220,15 +1240,31 @@
         function animate() {
             if (isAutoRotating) {
                 rotationSpeed += 0.3;
-                targetRotationZ = rotationSpeed;
+                targetItemRotation = rotationSpeed;
             }
             
-            currentRotationZ += (targetRotationZ - currentRotationZ) * 0.05;
-            currentRotationX += (targetRotationX - currentRotationX) * 0.05;
+            // Smooth rotation interpolation
+            currentItemRotation += (targetItemRotation - currentItemRotation) * 0.05;
             
-            if (ringContainer) {
-                ringContainer.style.transform = `rotateX(${currentRotationX}deg) rotateZ(${currentRotationZ}deg)`;
-            }
+            // Update position of all project items
+            const projectItems = document.querySelectorAll('.project-item');
+            projectItems.forEach((item) => {
+                const index = parseFloat(item.dataset.index);
+                const numItems = parseFloat(item.dataset.numItems);
+                const radius = parseFloat(item.dataset.radius);
+                const baseAngle = parseFloat(item.dataset.baseAngle);
+                
+                // Calculate new angle with rotation
+                const angle = baseAngle + currentItemRotation;
+                const radian = (angle * Math.PI) / 180;
+                
+                // Calculate new position
+                const x = 50 + radius * Math.cos(radian);
+                const y = 50 + radius * Math.sin(radian);
+                
+                item.style.left = `${x}%`;
+                item.style.top = `${y}%`;
+            });
             
             requestAnimationFrame(animate);
         }

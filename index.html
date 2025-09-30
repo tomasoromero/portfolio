@@ -51,25 +51,28 @@
             z-index: 15000;
         }
 
-        /* Contenedor del sobre */
+        /* Contenedor principal - basado en el sobre cerrado */
         .envelope-container {
             position: relative;
-            width: 900px;
-            height: 600px;
+            width: 800px;
+            height: 550px;
             cursor: none;
         }
 
-        /* Sobre cerrado (inicial) */
+        /* Sobre cerrado - BASE DE REFERENCIA */
         .envelope-closed {
             position: absolute;
             width: 100%;
-            height: 100%;
-            background-image: url('https://github.com/tomasoromero/portfolio/raw/main/sobre-cerrado.png');
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
+            left: 0;
+            bottom: 0;
             z-index: 4;
             transition: opacity 0.3s ease;
+        }
+
+        .envelope-closed img {
+            width: 100%;
+            height: auto;
+            display: block;
         }
 
         .envelope-container.opened .envelope-closed {
@@ -77,78 +80,87 @@
             pointer-events: none;
         }
 
-        /* Sobre abierto - MISMO TAMAÑO que sobre cerrado */
+        /* Sobre abierto - más alto por la tapa, alineado por el cuerpo */
         .envelope-opened {
             position: absolute;
             width: 100%;
-            height: 100%;
-            background-image: url('https://github.com/tomasoromero/portfolio/raw/main/sobre-abierto.png');
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
+            left: 0;
+            bottom: 0;
             z-index: 1;
             opacity: 0;
+        }
+
+        .envelope-opened img {
+            width: 100%;
+            height: auto;
+            display: block;
         }
 
         .envelope-container.opened .envelope-opened {
             opacity: 1;
         }
 
-        /* Papel carta - sale desde la base del sobre */
-        .envelope-letter {
-            position: absolute;
-            width: 76%;
-            height: 82%;
-            left: 12%;
-            bottom: 5%;
-            background-image: url('https://github.com/tomasoromero/portfolio/raw/main/papel-carta.png');
-            background-size: cover;
-            background-repeat: no-repeat;
-            background-position: center;
-            z-index: 2;
-            padding: 100px 70px 80px 70px;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            clip-path: inset(100% 0 0 0);
-            transition: clip-path 1.8s cubic-bezier(0.34, 1.56, 0.64, 1);
-        }
-
-        .envelope-container.opened .envelope-letter {
-            clip-path: inset(0 0 0 0);
-        }
-
-        /* Tapa frontal - MISMO TAMAÑO que sobre cerrado */
+        /* Tapa frontal - más ancha por las tapas laterales, centrada */
         .envelope-flap-front {
             position: absolute;
             width: 100%;
-            height: 100%;
-            background-image: url('https://github.com/tomasoromero/portfolio/raw/main/sobre-abierto-tapa.png');
-            background-size: contain;
-            background-repeat: no-repeat;
-            background-position: center;
+            left: 0;
+            bottom: 0;
             z-index: 3;
             opacity: 0;
+        }
+
+        .envelope-flap-front img {
+            width: 100%;
+            height: auto;
+            display: block;
         }
 
         .envelope-container.opened .envelope-flap-front {
             opacity: 1;
         }
 
+        /* Papel carta - posicionado dentro del sobre */
+        .envelope-letter {
+            position: absolute;
+            width: 70%;
+            height: 72%;
+            left: 15%;
+            bottom: 8%;
+            z-index: 2;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+            clip-path: inset(100% 0 0 0);
+            transition: clip-path 1.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            background: #f5f5dc;
+            border-radius: 3px;
+        }
+
+        .envelope-container.opened .envelope-letter {
+            clip-path: inset(0 0 0 0);
+        }
+
+        .letter-content {
+            padding: 70px 50px 50px 50px;
+            width: 100%;
+            text-align: center;
+        }
+
         /* Texto en el papel */
         .letter-title {
-            font-size: clamp(3rem, 5.5vw, 4.5rem);
+            font-size: clamp(2.2rem, 4.5vw, 3.5rem);
             font-weight: 200;
             color: #2c2c2c;
-            margin: 0 0 30px 0;
+            margin: 0 0 20px 0;
             letter-spacing: -1px;
         }
 
         .letter-subtitle {
-            font-size: clamp(1.3rem, 2.3vw, 1.8rem);
+            font-size: clamp(1rem, 1.8vw, 1.4rem);
             color: #4a4a4a;
-            margin: 0 0 45px 0;
+            margin: 0 0 35px 0;
             font-weight: 300;
             line-height: 1.5;
         }
@@ -157,14 +169,13 @@
             background: #E74C3C;
             border: none;
             border-radius: 30px;
-            padding: 20px 40px;
+            padding: 16px 36px;
             color: #fff;
-            font-size: 17px;
+            font-size: 15px;
             font-weight: 500;
             letter-spacing: 1.2px;
             cursor: none;
             transition: all 0.3s ease;
-            align-self: center;
             box-shadow: 0 6px 15px rgba(231, 76, 60, 0.4);
             position: relative;
             z-index: 5;
@@ -178,18 +189,27 @@
 
         .envelope-instruction {
             position: absolute;
-            bottom: -90px;
+            bottom: -70px;
             left: 50%;
             transform: translateX(-50%);
             color: rgba(255, 255, 255, 0.6);
-            font-size: 19px;
+            font-size: 17px;
             font-weight: 300;
             opacity: 1;
             transition: opacity 0.3s ease;
+            white-space: nowrap;
         }
 
         .envelope-container.opened .envelope-instruction {
             opacity: 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .envelope-container {
+                width: 90vw;
+                height: calc(90vw * 0.6875);
+            }
         }
     </style>
 </head>
@@ -199,14 +219,30 @@
     <!-- Welcome Screen -->
     <div class="welcome-screen" id="welcomeScreen">
         <div class="envelope-container" id="envelopeContainer">
-            <div class="envelope-opened"></div>
-            <div class="envelope-letter">
-                <h1 class="letter-title">Bienvenido</h1>
-                <p class="letter-subtitle">Descubre mi mundo creativo a través de una experiencia visual única</p>
-                <button class="letter-button" id="enterButton">ENTRAR</button>
+            <!-- Sobre abierto (fondo) -->
+            <div class="envelope-opened">
+                <img src="https://github.com/tomasoromero/portfolio/raw/main/sobre-abierto.png" alt="">
             </div>
-            <div class="envelope-flap-front"></div>
-            <div class="envelope-closed"></div>
+            
+            <!-- Papel carta -->
+            <div class="envelope-letter">
+                <div class="letter-content">
+                    <h1 class="letter-title">Bienvenido</h1>
+                    <p class="letter-subtitle">Descubre mi mundo creativo a través de una experiencia visual única</p>
+                    <button class="letter-button" id="enterButton">ENTRAR</button>
+                </div>
+            </div>
+            
+            <!-- Tapa frontal -->
+            <div class="envelope-flap-front">
+                <img src="https://github.com/tomasoromero/portfolio/raw/main/sobre-abierto-tapa.png" alt="">
+            </div>
+            
+            <!-- Sobre cerrado (capa superior inicial) -->
+            <div class="envelope-closed">
+                <img src="https://github.com/tomasoromero/portfolio/raw/main/sobre-cerrado.png" alt="">
+            </div>
+            
             <div class="envelope-instruction">Haz click para abrir</div>
         </div>
     </div>

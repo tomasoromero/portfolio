@@ -1,4 +1,9 @@
-<!DOCTYPE html>
+const initialAngle = (index / numItems) * 360;
+                projectItem.dataset.baseAngle = initialAngle;
+                
+                projectItem.addEventListener('mouseenter', () => {
+                    const currentAngle = parseFloat(projectItem.dataset.baseAngle) + currentItemRotation;
+                    const<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -516,6 +521,7 @@
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
             z-index: 50;
             filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.3));
+            transform: scale(1.3) translateZ(50px) !important;
         }
 
         .project-item::before {
@@ -1006,9 +1012,8 @@
                     const radian = (currentAngle * Math.PI) / 180;
                     const radialX = Math.cos(radian) * 25;
                     const radialY = Math.sin(radian) * 25;
-                    const currentRotateY = currentAngle;
                     
-                    projectItem.style.transform = `translate(-50%, -50%) rotateX(-60deg) rotateY(${currentRotateY}deg) translateZ(40px) scale(1.2) translate(${radialX}px, ${radialY}px)`;
+                    projectItem.style.transform = `translate(-50%, -50%) rotateX(-60deg) translateZ(50px) scale(1.3) translate(${radialX}px, ${radialY}px)`;
                     
                     showPreview(project);
                     if (mediaElement.tagName === 'VIDEO') {
@@ -1021,9 +1026,8 @@
                     const radian = (currentAngle * Math.PI) / 180;
                     const x = 50 + radius * Math.cos(radian);
                     const y = 50 + radius * Math.sin(radian);
-                    const currentRotateY = currentAngle;
                     
-                    projectItem.style.transform = `translate(-50%, -50%) rotateX(-60deg) rotateY(${currentRotateY}deg) translateZ(0px) scale(1)`;
+                    projectItem.style.transform = `translate(-50%, -50%) rotateX(-60deg) translateZ(0px) scale(1)`;
                     projectItem.style.left = `${x}%`;
                     projectItem.style.top = `${y}%`;
                     
@@ -1196,7 +1200,7 @@
                 
                 item.style.left = `${x}%`;
                 item.style.top = `${y}%`;
-                item.style.transform = `translate(-50%, -50%) rotateX(-60deg) rotateY(${angle}deg) translateZ(0px) scale(1)`;
+                item.style.transform = `translate(-50%, -50%) rotateX(-60deg) translateZ(0px) scale(1)`;
             });
             
             requestAnimationFrame(animate);

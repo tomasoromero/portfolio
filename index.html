@@ -1,4 +1,9 @@
-<!DOCTYPE html>
+const initialAngle = (index / numItems) * 360;
+                projectItem.dataset.baseAngle = initialAngle;
+                
+                projectItem.addEventListener('mouseenter', () => {
+                    const currentAngle = parseFloat(projectItem.dataset.baseAngle) + currentItemRotation;
+                    const<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -18,6 +23,7 @@
             overflow: hidden;
             height: 100vh;
             color: #333;
+            cursor: none;
         }
 
         .custom-cursor {
@@ -43,24 +49,12 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(135deg, #87CEEB 0%, #98D8E8 100%);
+            background: #87ceeb;
             display: flex;
             align-items: center;
             justify-content: center;
             z-index: 15000;
             transition: opacity 1s ease, visibility 1s ease;
-            opacity: 1;
-        }
-
-        .welcome-screen::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.1);
-            z-index: 1;
         }
 
         .welcome-screen.hidden {
@@ -69,13 +63,7 @@
         }
 
         .clouds-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            z-index: 2;
+            display: none;
         }
 
         .cloud {
@@ -139,28 +127,20 @@
         }
 
         @keyframes float-right {
-            0% {
-                transform: translateX(0);
-            }
-            100% {
-                transform: translateX(calc(100vw + 500px));
-            }
+            0% { transform: translateX(0); }
+            100% { transform: translateX(calc(100vw + 500px)); }
         }
 
         @keyframes float-left {
-            0% {
-                transform: translateX(0);
-            }
-            100% {
-                transform: translateX(calc(-100vw - 500px));
-            }
+            0% { transform: translateX(0); }
+            100% { transform: translateX(calc(-100vw - 500px)); }
         }
 
         .envelope-container {
             position: relative;
             width: 800px;
             height: 550px;
-            cursor: pointer;
+            cursor: none;
             z-index: 10;
         }
 
@@ -305,6 +285,7 @@
             opacity: 1;
             transition: opacity 0.3s ease;
             white-space: nowrap;
+            z-index: 10;
         }
 
         .envelope-container.opened .envelope-instruction {
@@ -429,7 +410,7 @@
             max-width: 800px;
             max-height: 800px;
             transform-style: preserve-3d;
-            transition: transform 0.1s ease-out;
+            transition: transform 0.15s ease-out;
             transform: rotateX(60deg) rotateZ(0deg);
         }
 
@@ -441,7 +422,6 @@
             text-align: center;
             z-index: 100;
             pointer-events: none;
-            display: none;
         }
 
         .center-title {
@@ -451,7 +431,7 @@
             margin-bottom: 15px;
             letter-spacing: -2px;
             opacity: 0;
-            display: none;
+            animation: fadeInCenter 2s ease 1.5s forwards;
         }
 
         .center-subtitle {
@@ -460,7 +440,7 @@
             font-weight: 300;
             letter-spacing: 1px;
             opacity: 0;
-            display: none;
+            animation: fadeInCenter 2s ease 2s forwards;
         }
 
         .center-preview {
@@ -504,8 +484,8 @@
 
         .project-item {
             position: absolute;
-            width: 160px;
-            height: 100px;
+            width: 200px;
+            height: 125px;
             border-radius: 12px;
             overflow: hidden;
             cursor: pointer;
@@ -523,7 +503,7 @@
         .project-item:hover {
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
             z-index: 50;
-            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+            filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.3));
         }
 
         .project-item::before {
@@ -583,7 +563,6 @@
         .project-item:hover .play-overlay {
             opacity: 1;
             transform: translate(-50%, -50%) scale(1.1);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
         }
 
         .play-icon {
@@ -632,10 +611,6 @@
         .project-item:hover .project-info {
             opacity: 1;
             transform: translateX(-50%) translateY(-20px) rotateX(60deg);
-        }
-
-        .project-item:hover {
-            filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.3));
         }
 
         .center-display {
@@ -770,18 +745,12 @@
         }
 
         @keyframes fadeInCenter {
-            to {
-                opacity: 1;
-            }
+            to { opacity: 1; }
         }
 
         @keyframes float {
-            0%, 100% {
-                transform: translateY(0px) rotate(0deg);
-            }
-            50% {
-                transform: translateY(-10px) rotate(180deg);
-            }
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(180deg); }
         }
 
         @media (max-width: 900px) {
@@ -792,29 +761,11 @@
         }
 
         @media (max-width: 768px) {
-            .nav {
-                padding: 0 20px;
-            }
-            
-            .nav-links {
-                gap: 20px;
-            }
-            
-            .ring-container {
-                width: 90vmin;
-                height: 90vmin;
-            }
-            
-            .project-item {
-                width: 120px;
-                height: 75px;
-            }
-            
-            .controls {
-                bottom: 30px;
-                flex-direction: column;
-                align-items: center;
-            }
+            .nav { padding: 0 20px; }
+            .nav-links { gap: 20px; }
+            .ring-container { width: 90vmin; height: 90vmin; }
+            .project-item { width: 120px; height: 75px; }
+            .controls { bottom: 30px; flex-direction: column; align-items: center; }
         }
     </style>
 </head>
@@ -885,7 +836,6 @@
                 <h1 class="center-title">Mi Trabajo.</h1>
                 <p class="center-subtitle">Creatividad Visual</p>
             </div>
-
             <div class="center-preview" id="centerPreview">
                 <div class="preview-title" id="previewTitle"></div>
             </div>
@@ -906,36 +856,42 @@
     <script>
         const projects = [
             { title: "Urban Architecture", type: "image", src: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=600&h=400&fit=crop" },
-            { title: "Motion Graphics Reel", type: "video", src: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" },
+            { title: "Motion Graphics", type: "video", src: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" },
             { title: "Portrait Series", type: "image", src: "https://images.unsplash.com/photo-1558655146-d09347e92766?w=600&h=400&fit=crop" },
             { title: "Brand Identity", type: "image", src: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=600&h=400&fit=crop" },
             { title: "Commercial Spot", type: "video", src: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4" },
-            { title: "Landscape Photography", type: "image", src: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=400&fit=crop" },
+            { title: "Landscape", type: "image", src: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=400&fit=crop" },
             { title: "Product Showcase", type: "image", src: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop" },
-            { title: "Documentary Film", type: "video", src: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" },
+            { title: "Documentary", type: "video", src: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4" },
             { title: "Street Photography", type: "image", src: "https://images.unsplash.com/photo-1551650975-87deedd944c3?w=600&h=400&fit=crop" },
             { title: "Fashion Editorial", type: "image", src: "https://images.unsplash.com/photo-1511818966892-d7d671e672a2?w=600&h=400&fit=crop" },
-            { title: "Animation Project", type: "video", src: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4" },
-            { title: "Architectural Study", type: "image", src: "https://images.unsplash.com/photo-1586880244386-8b3e34c8382c?w=600&h=400&fit=crop" },
+            { title: "Animation", type: "video", src: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4" },
+            { title: "Architecture", type: "image", src: "https://images.unsplash.com/photo-1586880244386-8b3e34c8382c?w=600&h=400&fit=crop" },
             { title: "Corporate Video", type: "video", src: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4" },
-            { title: "Fine Art Collection", type: "image", src: "https://images.unsplash.com/photo-1489599185559-16007e6dab02?w=600&h=400&fit=crop" },
-            { title: "Nature Documentary", type: "image", src: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&h=400&fit=crop" },
+            { title: "Fine Art", type: "image", src: "https://images.unsplash.com/photo-1489599185559-16007e6dab02?w=600&h=400&fit=crop" },
+            { title: "Nature", type: "image", src: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=600&h=400&fit=crop" },
             { title: "Music Video", type: "video", src: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4" },
             { title: "Interior Design", type: "image", src: "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=600&h=400&fit=crop" },
-            { title: "Food Photography", type: "image", src: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&h=400&fit=crop" },
-            { title: "Travel Documentary", type: "video", src: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4" },
-            { title: "Abstract Art", type: "image", src: "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=600&h=400&fit=crop" },
             { title: "Event Coverage", type: "image", src: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=600&h=400&fit=crop" },
-            { title: "Product Demo", type: "video", src: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4" },
-            { title: "Wildlife Photography", type: "image", src: "https://images.unsplash.com/photo-1564349683136-77e08dba1ef7?w=600&h=400&fit=crop" },
-            { title: "Tech Showcase", type: "image", src: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&h=400&fit=crop" },
-            { title: "Short Film", type: "video", src: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4" },
-            { title: "Minimalist Design", type: "image", src: "https://images.unsplash.com/photo-1493723843671-1d655e66ac1c?w=600&h=400&fit=crop" }
+            { title: "Abstract Art", type: "image", src: "https://images.unsplash.com/photo-1557672172-298e090bd0f1?w=600&h=400&fit=crop" },
+            { title: "Web Design", type: "image", src: "https://images.unsplash.com/photo-1547658719-da2b51169166?w=600&h=400&fit=crop" },
+            { title: "Branding Project", type: "image", src: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?w=600&h=400&fit=crop" },
+            { title: "Photography Studio", type: "image", src: "https://images.unsplash.com/photo-1452587925148-ce544e77e70d?w=600&h=400&fit=crop" },
+            { title: "Digital Marketing", type: "image", src: "https://images.unsplash.com/photo-1432888622747-4eb9a8f2c293?w=600&h=400&fit=crop" },
+            { title: "Architectural Render", type: "image", src: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=600&h=400&fit=crop" },
+            { title: "Fashion Show", type: "video", src: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4" },
+            { title: "Product Photography", type: "image", src: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&h=400&fit=crop" },
+            { title: "Travel Series", type: "image", src: "https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?w=600&h=400&fit=crop" },
+            { title: "Food Photography", type: "image", src: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&h=400&fit=crop" },
+            { title: "Lifestyle Blog", type: "image", src: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600&h=400&fit=crop" },
+            { title: "Sports Action", type: "image", src: "https://images.unsplash.com/photo-1461896836934-ffe607ba8211?w=600&h=400&fit=crop" },
+            { title: "Drone Footage", type: "video", src: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4" }
         ];
 
         let ringContainer;
         let isAutoRotating = false;
         let rotationSpeed = 0;
+        let itemRotation = 0;
         let targetItemRotation = 0;
         let currentItemRotation = 0;
         let mouseX = 0;
@@ -945,17 +901,21 @@
         let currentRotationX = 60;
         let currentRotationY = 0;
 
+        // Custom cursor
         const cursor = document.getElementById('customCursor');
         
+        // Mouse tracking para efecto magnético
         document.addEventListener('mousemove', (e) => {
             cursor.style.left = e.clientX + 'px';
             cursor.style.top = e.clientY + 'px';
             
+            // Calcular posición relativa del mouse (normalizado entre -1 y 1)
             mouseX = (e.clientX / window.innerWidth) * 2 - 1;
             mouseY = (e.clientY / window.innerHeight) * 2 - 1;
             
-            targetRotationY = mouseX * 15;
-            targetRotationX = 60 - mouseY * 10;
+            // Aplicar efecto magnético al aro
+            targetRotationY = mouseX * 15; // Rotación horizontal basada en X
+            targetRotationX = 60 - mouseY * 10; // Rotación vertical basada en Y
         });
 
         document.addEventListener('mouseover', (e) => {
@@ -966,6 +926,7 @@
             }
         });
 
+        // Envelope functionality
         const envelopeContainer = document.getElementById('envelopeContainer');
         const enterButton = document.getElementById('enterButton');
         
@@ -1063,16 +1024,20 @@
                     const currentAngle = parseFloat(projectItem.dataset.baseAngle) + currentItemRotation;
                     const radian = (currentAngle * Math.PI) / 180;
                     
-                    const pushOutDistance = 80;
-                    const radialX = Math.cos(radian) * pushOutDistance;
-                    const radialY = Math.sin(radian) * pushOutDistance;
+                    // Calcular dirección radial para mover hacia afuera
+                    const radialX = Math.cos(radian) * 50;
+                    const radialY = Math.sin(radian) * 50;
                     
-                    // Sin da 1 en la parte superior (90°) y -1 en la parte inferior (270°)
-                    // Solo rotar cuando está arriba (sin > 0.3)
-                    const sinValue = Math.sin(radian);
-                    const rotateY = sinValue > 0.3 ? sinValue * 90 : 0;
+                    // Normalizar el ángulo para rotación Y
+                    let normalizedAngle = ((currentAngle % 360) + 360) % 360;
+                    let rotationY = normalizedAngle;
                     
-                    projectItem.style.transform = `translate(-50%, -50%) rotateX(-60deg) rotateY(${rotateY}deg) translate(${radialX}px, ${radialY}px) translateZ(40px) scale(1.35)`;
+                    // Si está entre 180 y 360, hacer espejo para que no dé la vuelta completa
+                    if (normalizedAngle > 180) {
+                        rotationY = 360 - normalizedAngle;
+                    }
+                    
+                    projectItem.style.transform = `translate(-50%, -50%) rotateX(-60deg) rotateY(${rotationY}deg) translateZ(30px) scale(1.2) translate(${radialX}px, ${radialY}px)`;
                     projectItem.style.zIndex = '100';
                     
                     showPreview(project);
@@ -1087,10 +1052,16 @@
                     const x = 50 + radius * Math.cos(radian);
                     const y = 50 + radius * Math.sin(radian);
                     
-                    const sinValue = Math.sin(radian);
-                    const rotateY = sinValue > 0.3 ? sinValue * 90 : 0;
+                    // Normalizar el ángulo para rotación Y
+                    let normalizedAngle = ((currentAngle % 360) + 360) % 360;
+                    let rotationY = normalizedAngle;
                     
-                    projectItem.style.transform = `translate(-50%, -50%) rotateX(-60deg) rotateY(${rotateY}deg) translateZ(0px) scale(1)`;
+                    // Si está entre 180 y 360, hacer espejo
+                    if (normalizedAngle > 180) {
+                        rotationY = 360 - normalizedAngle;
+                    }
+                    
+                    projectItem.style.transform = `translate(-50%, -50%) rotateX(-60deg) rotateY(${rotationY}deg) translateZ(0px) scale(1)`;
                     projectItem.style.left = `${x}%`;
                     projectItem.style.top = `${y}%`;
                     projectItem.style.zIndex = '';
@@ -1260,6 +1231,8 @@
             
             const projectItems = document.querySelectorAll('.project-item');
             projectItems.forEach((item) => {
+                const index = parseFloat(item.dataset.index);
+                const numItems = parseFloat(item.dataset.numItems);
                 const radius = parseFloat(item.dataset.radius);
                 const baseAngle = parseFloat(item.dataset.baseAngle);
                 
@@ -1269,14 +1242,18 @@
                 const x = 50 + radius * Math.cos(radian);
                 const y = 50 + radius * Math.sin(radian);
                 
-                // Sin da 1 en la parte superior (90°) y -1 en la parte inferior (270°)
-                // Solo rotar cuando está arriba (sin > 0.3)
-                const sinValue = Math.sin(radian);
-                const rotateY = sinValue > 0.3 ? sinValue * 90 : 0;
+                // Normalizar el ángulo para rotación Y (evitar que den la vuelta completa)
+                let normalizedAngle = ((angle % 360) + 360) % 360;
+                let rotationY = normalizedAngle;
+                
+                // Si está entre 180 y 360, hacer espejo para que no dé la vuelta
+                if (normalizedAngle > 180) {
+                    rotationY = 360 - normalizedAngle;
+                }
                 
                 item.style.left = `${x}%`;
                 item.style.top = `${y}%`;
-                item.style.transform = `translate(-50%, -50%) rotateX(-60deg) rotateY(${rotateY}deg) translateZ(0px) scale(1)`;
+                item.style.transform = `translate(-50%, -50%) rotateX(-60deg) rotateY(${rotationY}deg) translateZ(0px) scale(1)`;
             });
             
             requestAnimationFrame(animate);

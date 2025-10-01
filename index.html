@@ -943,7 +943,9 @@ const initialAngle = (index / numItems) * 360;
             const welcomeScreen = document.getElementById('welcomeScreen');
             welcomeScreen.classList.add('hidden');
             setTimeout(() => {
-                startLoading();
+                createRing();
+                createParticles();
+                startAnimation();
             }, 1000);
         });
 

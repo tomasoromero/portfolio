@@ -1067,10 +1067,10 @@
                     const radialX = Math.cos(radian) * pushOutDistance;
                     const radialY = Math.sin(radian) * pushOutDistance;
                     
-                    // Sin da 1 en la parte superior (90°), 0 a los lados, -1 abajo
-                    // Solo rotar cuando está arriba (sin > 0.3)
-                    const sinValue = Math.sin(radian);
-                    const rotateY = sinValue > 0.3 ? sinValue * 90 : 0;
+                    // Cos da 1 en la parte inferior (0°/360°) y -1 en la parte superior (180°)
+                    // Solo rotar cuando está ABAJO (cos < -0.3 significa zona inferior)
+                    const cosValue = Math.cos(radian);
+                    const rotateY = cosValue < -0.3 ? Math.abs(cosValue + 1) * 90 : 0;
                     
                     projectItem.style.transform = `translate(-50%, -50%) rotateX(-60deg) rotateY(${rotateY}deg) translate(${radialX}px, ${radialY}px) translateZ(40px) scale(1.35)`;
                     projectItem.style.zIndex = '100';

@@ -812,4 +812,229 @@
                     const radialX = Math.cos(radian) * pushOutDistance;
                     const radialY = Math.sin(radian) * pushOutDistance;
                     
-                    projectItem.style.transform = `translate(-50%, -50%) rotateX(-25deg) translate(${radialX}px, ${radialY}px) translateZ(40px) scale(1.
+                    projectItem.style.transform = `translate(-50%, -50%) rotateX(-25deg) translate(${radialX}px, ${radialY}px) translateZ(40px) scale(1.35)`;
+                    projectItem.style.zIndex = '100';
+                    
+                    showPreview(project);
+                    if (mediaElement.tagName === 'VIDEO') {
+                        mediaElement.play().catch(e => console.log('Video play failed'));
+                    }
+                });
+                
+                projectItem.addEventListener('mouseleave', () => {
+                    const currentAngle = parseFloat(projectItem.dataset.baseAngle) + currentItemRotation;
+                    const radian = (currentAngle * Math.PI) / 180;
+                    const x = 50 + radius * Math.cos(radian);
+                    const y = 50 + radius * Math.sin(radian);
+                    
+                    projectItem.style.transform = `translate(-50%, -50%) rotateX(-25deg) translateZ(0px) scale(1)`;
+                    projectItem.style.left = `${x}%`;
+                    projectItem.style.top = `${y}%`;
+                    projectItem.style.zIndex = '';
+                    
+                    hidePreview();
+                    if (mediaElement.tagName === 'VIDEO') {
+                        mediaElement.pause();
+                        mediaElement.currentTime = 0;
+                    }
+                });
+                
+                projectItem.addEventListener('click', () => {
+                    showCenterDisplay(project);
+                });
+                
+                ringContainer.appendChild(projectItem);
+            });
+        }
+
+        function showPreview(project) {
+            const centerPreview = document.getElementById('centerPreview');
+            centerPreview.innerHTML = '';
+            
+            let previewMedia;
+            if (project.type === 'video') {
+                previewMedia = document.createElement('video');
+                previewMedia.src = project.src;
+                previewMedia.muted = true;
+                previewMedia.loop = true;
+                previewMedia.playsInline = true;
+                previewMedia.autoplay = true;
+            } else {
+                previewMedia = document.createElement('img');
+                previewMedia.src = project.src;
+                previewMedia.alt = project.title;
+            }
+            
+            centerPreview.appendChild(previewMedia);
+            
+            const titleElement = document.createElement('div');
+            titleElement.className = 'preview-title';
+            titleElement.textContent = project.title;
+            centerPreview.appendChild(titleElement);
+            
+            centerPreview.classList.add('visible');
+        }
+
+        function hidePreview() {
+            const centerPreview = document.getElementById('centerPreview');
+            centerPreview.classList.remove('visible');
+            
+            const video = centerPreview.querySelector('video');
+            if (video) {
+                video.pause();
+            }
+        }
+
+        function showCenterDisplay(project) {
+            const centerDisplay = document.getElementById('centerDisplay');
+            const centerMedia = document.getElementById('centerMedia');
+            const mediaTitle = document.getElementById('mediaTitle');
+            
+            centerMedia.innerHTML = '';
+            
+            let newMediaElement;
+            if (project.type === 'video') {
+                newMediaElement = document.createElement('video');
+                newMediaElement.src = project.src;
+                newMediaElement.controls = true;
+                newMediaElement.autoplay = true;
+                newMediaElement.loop = true;
+            } else {
+                newMediaElement = document.createElement('img');
+                newMediaElement.src = project.src;
+                newMediaElement.alt = project.title;
+            }
+            
+            centerMedia.appendChild(newMediaElement);
+            mediaTitle.textContent = project.title;
+            
+            centerDisplay.classList.add('visible');
+            
+            const wasAutoRotating = isAutoRotating;
+            if (isAutoRotating) {
+                pauseRotation();
+            }
+            
+            centerDisplay.wasAutoRotating = wasAutoRotating;
+        }
+
+        function hideCenterDisplay() {
+            const centerDisplay = document.getElementById('centerDisplay');
+            const centerMedia = document.getElementById('centerMedia');
+            
+            centerDisplay.classList.remove('visible');
+            
+            const video = centerMedia.querySelector('video');
+            if (video) {
+                video.pause();
+            }
+            
+            if (centerDisplay.wasAutoRotating) {
+                toggleAutoRotate();
+            }
+        }
+
+        function setupWheelControl() {
+            document.addEventListener('wheel', (e) => {
+                const ringSection = document.getElementById('gallery');
+                const rect = ringSection.getBoundingClientRect();
+                
+                if (rect.top <= 0 && rect.bottom >= window.innerHeight) {
+                    e.preventDefault();
+                    
+                    if (isAutoRotating) {
+                        pauseRotation();
+                    }
+                    
+                    const direction = e.deltaY > 0 ? 1 : -1;
+                    targetItemRotation += direction * 5;
+                }
+            }, { passive: false });
+        }
+
+        function animate() {
+            if (isAutoRotating) {
+                rotationSpeed += 0.3;
+                targetItemRotation = rotationSpeed;
+            }
+            
+            currentItemRotation += (targetItemRotation - currentItemRotation) * 0.05;
+            
+            currentRotationX += (targetRotationX - currentRotationX) * 0.08;
+            currentRotationY += (targetRotationY - currentRotationY) * 0.08;
+            
+            if (ringContainer) {
+                ringContainer.style.transform = `rotateX(${currentRotationX}deg) rotateY(${currentRotationY}deg) rotateZ(-20deg)`;
+            }
+            
+            const projectItems = document.querySelectorAll('.project-item');
+            projectItems.forEach((item) => {
+                const radius = parseFloat(item.dataset.radius);
+                const baseAngle = parseFloat(item.dataset.baseAngle);
+                
+                const angle = baseAngle + currentItemRotation;
+                const radian = (angle * Math.PI) / 180;
+                
+                const x = 50 + radius * Math.cos(radian);
+                const y = 50 + radius * Math.sin(radian);
+                
+                item.style.left = `${x}%`;
+                item.style.top = `${y}%`;
+                item.style.transform = `translate(-50%, -50%) rotateX(-25deg) translateZ(0px) scale(1)`;
+            });
+            
+            requestAnimationFrame(animate);
+        }
+
+        function toggleAutoRotate() {
+            isAutoRotating = !isAutoRotating;
+            const btn = document.getElementById('autoRotateBtn');
+            
+            if (isAutoRotating) {
+                btn.classList.add('active');
+                btn.textContent = 'Rotando...';
+            } else {
+                btn.classList.remove('active');
+                btn.textContent = 'Rotación Automática';
+            }
+        }
+
+        function pauseRotation() {
+            isAutoRotating = false;
+            rotationSpeed = 0;
+            
+            const autoRotateBtn = document.getElementById('autoRotateBtn');
+            autoRotateBtn.classList.remove('active');
+            autoRotateBtn.textContent = 'Rotación Automática';
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            createBounceCards();
+            createRing();
+            setupWheelControl();
+            animate();
+            
+            const autoRotateBtn = document.getElementById('autoRotateBtn');
+            const pauseBtn = document.getElementById('pauseBtn');
+            const closeBtn = document.getElementById('closeBtn');
+            const centerDisplay = document.getElementById('centerDisplay');
+            
+            autoRotateBtn.addEventListener('click', toggleAutoRotate);
+            pauseBtn.addEventListener('click', pauseRotation);
+            closeBtn.addEventListener('click', hideCenterDisplay);
+            
+            centerDisplay.addEventListener('click', (e) => {
+                if (e.target === centerDisplay) {
+                    hideCenterDisplay();
+                }
+            });
+            
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && centerDisplay.classList.contains('visible')) {
+                    hideCenterDisplay();
+                }
+            });
+        });
+    </script>
+</body>
+</html>

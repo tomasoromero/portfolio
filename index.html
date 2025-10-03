@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portafolio 3D</title>
+    <title>Nuestras Memorias</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <style>
         * {
             margin: 0;
@@ -14,9 +15,129 @@
         body {
             font-family: 'Helvetica Neue', Arial, sans-serif;
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            overflow: hidden;
-            height: 100vh;
             color: #333;
+            overflow-x: hidden;
+        }
+
+        .scroll-container {
+            height: 200vh;
+        }
+
+        /* Sección de Tarjetas */
+        .cards-section {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .curved-text-container {
+            position: absolute;
+            top: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100%;
+            max-width: 1440px;
+            height: 200px;
+            overflow: hidden;
+            z-index: 500;
+            pointer-events: none;
+        }
+
+        .curved-text-svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .curved-text {
+            letter-spacing: 4px;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+        }
+
+        .animated-text {
+            animation: marquee 20s linear infinite;
+        }
+
+        @keyframes marquee {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        .bounceCardsContainer {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card {
+            position: absolute;
+            width: 280px;
+            height: 380px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            transform-origin: center center;
+        }
+
+        .card:hover {
+            z-index: 10;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4);
+        }
+
+        .card .image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            color: #333;
+            font-size: 14px;
+            font-weight: 300;
+            letter-spacing: 2px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateX(-50%) translateY(0);
+            }
+            50% {
+                transform: translateX(-50%) translateY(-10px);
+            }
+        }
+
+        .scroll-arrow {
+            width: 24px;
+            height: 24px;
+            border-left: 2px solid #333;
+            border-bottom: 2px solid #333;
+            transform: rotate(-45deg);
+        }
+
+        /* Sección del Anillo 3D */
+        .ring-section {
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
         }
 
         .custom-cursor {
@@ -91,43 +212,6 @@
             justify-content: center;
             height: 100vh;
             perspective: 2000px;
-            padding-top: 100px;
-        }
-
-        .curved-text-container {
-            position: fixed;
-            top: 80px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 100%;
-            max-width: 1440px;
-            height: 200px;
-            overflow: hidden;
-            z-index: 500;
-            pointer-events: none;
-        }
-
-        .curved-text-svg {
-            width: 100%;
-            height: 100%;
-        }
-
-        .curved-text {
-            letter-spacing: 4px;
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-        }
-
-        .animated-text {
-            animation: marquee 20s linear infinite;
-        }
-
-        @keyframes marquee {
-            0% {
-                transform: translateX(0);
-            }
-            100% {
-                transform: translateX(-50%);
-            }
         }
 
         .ring-container {
@@ -446,6 +530,11 @@
                 flex-direction: column;
                 align-items: center;
             }
+
+            .card {
+                width: 200px;
+                height: 280px;
+            }
         }
     </style>
 </head>
@@ -454,34 +543,56 @@
 
     <header class="header">
         <nav class="nav">
-            <a href="#" class="logo">PORTAFOLIO</a>
+            <a href="#" class="logo">MEMORIAS</a>
             <ul class="nav-links">
-                <li><a href="#work">Trabajo</a></li>
-                <li><a href="#about">Acerca</a></li>
+                <li><a href="#cards">Inicio</a></li>
+                <li><a href="#gallery">Galería</a></li>
                 <li><a href="#contact">Contacto</a></li>
             </ul>
         </nav>
     </header>
 
-    <div class="curved-text-container">
-        <svg class="curved-text-svg" viewBox="0 0 1440 200" preserveAspectRatio="xMidYMid meet">
-            <defs>
-                <path id="curvePath" d="M-100,160 Q720,40 2980,160" fill="none" stroke="transparent"/>
-            </defs>
-            <text class="curved-text" font-size="48" font-weight="bold" fill="#333">
-                <textPath href="#curvePath" startOffset="0">
-                    <tspan class="animated-text">٩(ˊᗜˋ*)و ♡ FELIZ ANIVERSARIO♡ ⸜(｡˃ ᵕ ˂ )⸝ ♡ BIENVENIDA A NUESTRAS MEMORIAS ♡ ٩(ˊᗜˋ*)و ♡ FELIZ ANIVERSARIO♡ ⸜(｡˃ ᵕ ˂ )⸝ ♡ BIENVENIDA A NUESTRAS MEMORIAS ♡ </tspan>
-                </textPath>
-            </text>
-        </svg>
-    </div>
-
-    <div class="main-container">
-        <div class="ring-container" id="ringContainer">
-            <div class="center-preview" id="centerPreview">
-                <div class="preview-title" id="previewTitle"></div>
+    <div class="scroll-container">
+        <!-- Sección de Tarjetas -->
+        <section class="cards-section" id="cards">
+            <div class="curved-text-container">
+                <svg class="curved-text-svg" viewBox="0 0 1440 200" preserveAspectRatio="xMidYMid meet">
+                    <defs>
+                        <path id="curvePath" d="M-100,160 Q720,40 2980,160" fill="none" stroke="transparent"/>
+                    </defs>
+                    <text class="curved-text" font-size="48" font-weight="bold" fill="#333">
+                        <textPath href="#curvePath" startOffset="0">
+                            <tspan class="animated-text">٩(ˊᗜˋ*)و ♡ FELIZ ANIVERSARIO♡ ⸜(｡˃ ᵕ ˂ )⸝ ♡ BIENVENIDA A NUESTRAS MEMORIAS ♡ ٩(ˊᗜˋ*)و ♡ FELIZ ANIVERSARIO♡ ⸜(｡˃ ᵕ ˂ )⸝ ♡ BIENVENIDA A NUESTRAS MEMORIAS ♡ </tspan>
+                        </textPath>
+                    </text>
+                </svg>
             </div>
-        </div>
+
+            <div class="bounceCardsContainer" id="bounceCards" style="width: 400px; height: 400px;">
+                <!-- Las tarjetas se crearán dinámicamente con JavaScript -->
+            </div>
+
+            <div class="scroll-indicator">
+                <span>DESLIZA PARA VER MÁS</span>
+                <div class="scroll-arrow"></div>
+            </div>
+        </section>
+
+        <!-- Sección del Anillo 3D -->
+        <section class="ring-section" id="gallery">
+            <div class="main-container">
+                <div class="ring-container" id="ringContainer">
+                    <div class="center-preview" id="centerPreview">
+                        <div class="preview-title" id="previewTitle"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="controls">
+                <button class="control-btn active" id="autoRotateBtn">Rotando...</button>
+                <button class="control-btn" id="pauseBtn">Pausar</button>
+            </div>
+        </section>
     </div>
 
     <div class="center-display" id="centerDisplay">
@@ -490,12 +601,25 @@
         <div class="media-title" id="mediaTitle"></div>
     </div>
 
-    <div class="controls">
-        <button class="control-btn active" id="autoRotateBtn">Rotando...</button>
-        <button class="control-btn" id="pauseBtn">Pausar</button>
-    </div>
-
     <script>
+        // Imágenes para las tarjetas
+        const cardImages = [
+            'https://images.unsplash.com/photo-1518568814500-bf0f8d125f46?w=400&h=600&fit=crop',
+            'https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?w=400&h=600&fit=crop',
+            'https://images.unsplash.com/photo-1522673607200-164d1b6ce486?w=400&h=600&fit=crop',
+            'https://images.unsplash.com/photo-1474552226712-ac0f0961a954?w=400&h=600&fit=crop',
+            'https://images.unsplash.com/photo-1522771930-78848d9293e8?w=400&h=600&fit=crop'
+        ];
+
+        const transformStyles = [
+            'rotate(10deg) translate(-170px)',
+            'rotate(5deg) translate(-85px)',
+            'rotate(-3deg)',
+            'rotate(-10deg) translate(85px)',
+            'rotate(2deg) translate(170px)'
+        ];
+
+        // Proyectos para el anillo 3D
         const projects = [
             { title: "Urban Architecture", type: "image", src: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=600&h=400&fit=crop" },
             { title: "Motion Graphics Reel", type: "video", src: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" },
@@ -508,21 +632,7 @@
             { title: "Street Photography", type: "image", src: "https://images.unsplash.com/photo-1551650975-87deedd944c3?w=600&h=400&fit=crop" },
             { title: "Fashion Editorial", type: "image", src: "https://images.unsplash.com/photo-1511818966892-d7d671e672a2?w=600&h=400&fit=crop" },
             { title: "Animation Project", type: "video", src: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4" },
-            { title: "Architectural Study", type: "image", src: "https://images.unsplash.com/photo-1586880244386-8b3e34c8382c?w=600&h=400&fit=crop" },
-            { title: "Corporate Video", type: "video", src: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4" },
-            { title: "Fine Art Collection", type: "image", src: "https://images.unsplash.com/photo-1489599185559-16007e6dab02?w=600&h=400&fit=crop" },
-            { title: "Nature Documentary", type: "image", src: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=600&h=400&fit=crop" },
-            { title: "Music Video", type: "video", src: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4" },
-            { title: "Interior Design", type: "image", src: "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=600&h=400&fit=crop" },
-            { title: "Food Photography", type: "image", src: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&h=400&fit=crop" },
-            { title: "Travel Documentary", type: "video", src: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4" },
-            { title: "Abstract Art", type: "image", src: "https://images.unsplash.com/photo-1541961017774-22349e4a1262?w=600&h=400&fit=crop" },
-            { title: "Event Coverage", type: "image", src: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=600&h=400&fit=crop" },
-            { title: "Product Demo", type: "video", src: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4" },
-            { title: "Wildlife Photography", type: "image", src: "https://images.unsplash.com/photo-1564349683136-77e08dba1ef7?w=600&h=400&fit=crop" },
-            { title: "Tech Showcase", type: "image", src: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&h=400&fit=crop" },
-            { title: "Short Film", type: "video", src: "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4" },
-            { title: "Minimalist Design", type: "image", src: "https://images.unsplash.com/photo-1493723843671-1d655e66ac1c?w=600&h=400&fit=crop" }
+            { title: "Architectural Study", type: "image", src: "https://images.unsplash.com/photo-1586880244386-8b3e34c8382c?w=600&h=400&fit=crop" }
         ];
 
         let ringContainer;
@@ -551,13 +661,109 @@
         });
 
         document.addEventListener('mouseover', (e) => {
-            if (e.target.closest('button') || e.target.closest('.project-item') || e.target.closest('a')) {
+            if (e.target.closest('button') || e.target.closest('.project-item') || e.target.closest('a') || e.target.closest('.card')) {
                 cursor.classList.add('hover');
             } else {
                 cursor.classList.remove('hover');
             }
         });
 
+        // Crear tarjetas con animación GSAP
+        function createBounceCards() {
+            const container = document.getElementById('bounceCards');
+            
+            cardImages.forEach((src, idx) => {
+                const card = document.createElement('div');
+                card.className = `card card-${idx}`;
+                card.style.transform = transformStyles[idx];
+                
+                const img = document.createElement('img');
+                img.className = 'image';
+                img.src = src;
+                img.alt = `card-${idx}`;
+                
+                card.appendChild(img);
+                container.appendChild(card);
+
+                // Eventos de hover
+                card.addEventListener('mouseenter', () => pushSiblings(idx));
+                card.addEventListener('mouseleave', resetSiblings);
+            });
+
+            // Animación inicial con GSAP
+            gsap.fromTo('.card', 
+                { scale: 0 },
+                {
+                    scale: 1,
+                    stagger: 0.06,
+                    ease: 'elastic.out(1, 0.8)',
+                    delay: 0.5
+                }
+            );
+        }
+
+        function getNoRotationTransform(transformStr) {
+            const hasRotate = /rotate\([\s\S]*?\)/.test(transformStr);
+            if (hasRotate) {
+                return transformStr.replace(/rotate\([\s\S]*?\)/, 'rotate(0deg)');
+            }
+            return transformStr === 'none' ? 'rotate(0deg)' : `${transformStr} rotate(0deg)`;
+        }
+
+        function getPushedTransform(baseTransform, offsetX) {
+            const translateRegex = /translate\(([-0-9.]+)px\)/;
+            const match = baseTransform.match(translateRegex);
+            if (match) {
+                const currentX = parseFloat(match[1]);
+                const newX = currentX + offsetX;
+                return baseTransform.replace(translateRegex, `translate(${newX}px)`);
+            }
+            return baseTransform === 'none' ? `translate(${offsetX}px)` : `${baseTransform} translate(${offsetX}px)`;
+        }
+
+        function pushSiblings(hoveredIdx) {
+            cardImages.forEach((_, i) => {
+                gsap.killTweensOf(`.card-${i}`);
+                const baseTransform = transformStyles[i] || 'none';
+                
+                if (i === hoveredIdx) {
+                    const noRotationTransform = getNoRotationTransform(baseTransform);
+                    gsap.to(`.card-${i}`, {
+                        transform: noRotationTransform,
+                        duration: 0.4,
+                        ease: 'back.out(1.4)',
+                        overwrite: 'auto'
+                    });
+                } else {
+                    const offsetX = i < hoveredIdx ? -160 : 160;
+                    const pushedTransform = getPushedTransform(baseTransform, offsetX);
+                    const distance = Math.abs(hoveredIdx - i);
+                    const delay = distance * 0.05;
+                    gsap.to(`.card-${i}`, {
+                        transform: pushedTransform,
+                        duration: 0.4,
+                        ease: 'back.out(1.4)',
+                        delay,
+                        overwrite: 'auto'
+                    });
+                }
+            });
+        }
+
+        function resetSiblings() {
+            cardImages.forEach((_, i) => {
+                gsap.killTweensOf(`.card-${i}`);
+                const baseTransform = transformStyles[i] || 'none';
+                gsap.to(`.card-${i}`, {
+                    transform: baseTransform,
+                    duration: 0.4,
+                    ease: 'back.out(1.4)',
+                    overwrite: 'auto'
+                });
+            });
+        }
+
+        // Crear anillo 3D
         function createRing() {
             ringContainer = document.getElementById('ringContainer');
             const numItems = projects.length;
@@ -606,228 +812,4 @@
                     const radialX = Math.cos(radian) * pushOutDistance;
                     const radialY = Math.sin(radian) * pushOutDistance;
                     
-                    projectItem.style.transform = `translate(-50%, -50%) rotateX(-25deg) translate(${radialX}px, ${radialY}px) translateZ(40px) scale(1.35)`;
-                    projectItem.style.zIndex = '100';
-                    
-                    showPreview(project);
-                    if (mediaElement.tagName === 'VIDEO') {
-                        mediaElement.play().catch(e => console.log('Video play failed'));
-                    }
-                });
-                
-                projectItem.addEventListener('mouseleave', () => {
-                    const currentAngle = parseFloat(projectItem.dataset.baseAngle) + currentItemRotation;
-                    const radian = (currentAngle * Math.PI) / 180;
-                    const x = 50 + radius * Math.cos(radian);
-                    const y = 50 + radius * Math.sin(radian);
-                    
-                    projectItem.style.transform = `translate(-50%, -50%) rotateX(-25deg) translateZ(0px) scale(1)`;
-                    projectItem.style.left = `${x}%`;
-                    projectItem.style.top = `${y}%`;
-                    projectItem.style.zIndex = '';
-                    
-                    hidePreview();
-                    if (mediaElement.tagName === 'VIDEO') {
-                        mediaElement.pause();
-                        mediaElement.currentTime = 0;
-                    }
-                });
-                
-                projectItem.addEventListener('click', () => {
-                    showCenterDisplay(project);
-                });
-                
-                ringContainer.appendChild(projectItem);
-            });
-        }
-
-        function showPreview(project) {
-            const centerPreview = document.getElementById('centerPreview');
-            
-            centerPreview.innerHTML = '';
-            
-            let previewMedia;
-            if (project.type === 'video') {
-                previewMedia = document.createElement('video');
-                previewMedia.src = project.src;
-                previewMedia.muted = true;
-                previewMedia.loop = true;
-                previewMedia.playsInline = true;
-                previewMedia.autoplay = true;
-            } else {
-                previewMedia = document.createElement('img');
-                previewMedia.src = project.src;
-                previewMedia.alt = project.title;
-            }
-            
-            centerPreview.appendChild(previewMedia);
-            
-            const titleElement = document.createElement('div');
-            titleElement.className = 'preview-title';
-            titleElement.textContent = project.title;
-            centerPreview.appendChild(titleElement);
-            
-            centerPreview.classList.add('visible');
-        }
-
-        function hidePreview() {
-            const centerPreview = document.getElementById('centerPreview');
-            centerPreview.classList.remove('visible');
-            
-            const video = centerPreview.querySelector('video');
-            if (video) {
-                video.pause();
-            }
-        }
-
-        function showCenterDisplay(project) {
-            const centerDisplay = document.getElementById('centerDisplay');
-            const centerMedia = document.getElementById('centerMedia');
-            const mediaTitle = document.getElementById('mediaTitle');
-            
-            centerMedia.innerHTML = '';
-            
-            let newMediaElement;
-            if (project.type === 'video') {
-                newMediaElement = document.createElement('video');
-                newMediaElement.src = project.src;
-                newMediaElement.controls = true;
-                newMediaElement.autoplay = true;
-                newMediaElement.loop = true;
-            } else {
-                newMediaElement = document.createElement('img');
-                newMediaElement.src = project.src;
-                newMediaElement.alt = project.title;
-            }
-            
-            centerMedia.appendChild(newMediaElement);
-            mediaTitle.textContent = project.title;
-            
-            centerDisplay.classList.add('visible');
-            
-            const wasAutoRotating = isAutoRotating;
-            if (isAutoRotating) {
-                pauseRotation();
-            }
-            
-            centerDisplay.wasAutoRotating = wasAutoRotating;
-        }
-
-        function hideCenterDisplay() {
-            const centerDisplay = document.getElementById('centerDisplay');
-            const centerMedia = document.getElementById('centerMedia');
-            
-            centerDisplay.classList.remove('visible');
-            
-            const video = centerMedia.querySelector('video');
-            if (video) {
-                video.pause();
-            }
-            
-            if (centerDisplay.wasAutoRotating) {
-                toggleAutoRotate();
-            }
-        }
-
-        function setupWheelControl() {
-            document.addEventListener('wheel', (e) => {
-                e.preventDefault();
-                
-                if (isAutoRotating) {
-                    pauseRotation();
-                }
-                
-                const direction = e.deltaY > 0 ? 1 : -1;
-                targetItemRotation += direction * 5;
-            }, { passive: false });
-        }
-
-        function animate() {
-            if (isAutoRotating) {
-                rotationSpeed += 0.3;
-                targetItemRotation = rotationSpeed;
-            }
-            
-            currentItemRotation += (targetItemRotation - currentItemRotation) * 0.05;
-            
-            currentRotationX += (targetRotationX - currentRotationX) * 0.08;
-            currentRotationY += (targetRotationY - currentRotationY) * 0.08;
-            
-            if (ringContainer) {
-                ringContainer.style.transform = `rotateX(${currentRotationX}deg) rotateY(${currentRotationY}deg) rotateZ(-20deg)`;
-            }
-            
-            const projectItems = document.querySelectorAll('.project-item');
-            projectItems.forEach((item) => {
-                const radius = parseFloat(item.dataset.radius);
-                const baseAngle = parseFloat(item.dataset.baseAngle);
-                
-                const angle = baseAngle + currentItemRotation;
-                const radian = (angle * Math.PI) / 180;
-                
-                const x = 50 + radius * Math.cos(radian);
-                const y = 50 + radius * Math.sin(radian);
-                
-                item.style.left = `${x}%`;
-                item.style.top = `${y}%`;
-                item.style.transform = `translate(-50%, -50%) rotateX(-25deg) translateZ(0px) scale(1)`;
-            });
-            
-            requestAnimationFrame(animate);
-        }
-
-        function startAnimation() {
-            setupWheelControl();
-            animate();
-        }
-
-        function toggleAutoRotate() {
-            isAutoRotating = !isAutoRotating;
-            const btn = document.getElementById('autoRotateBtn');
-            
-            if (isAutoRotating) {
-                btn.classList.add('active');
-                btn.textContent = 'Rotando...';
-            } else {
-                btn.classList.remove('active');
-                btn.textContent = 'Rotación Automática';
-            }
-        }
-
-        function pauseRotation() {
-            isAutoRotating = false;
-            rotationSpeed = 0;
-            
-            const autoRotateBtn = document.getElementById('autoRotateBtn');
-            autoRotateBtn.classList.remove('active');
-            autoRotateBtn.textContent = 'Rotación Automática';
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-            createRing();
-            startAnimation();
-            
-            const autoRotateBtn = document.getElementById('autoRotateBtn');
-            const pauseBtn = document.getElementById('pauseBtn');
-            const closeBtn = document.getElementById('closeBtn');
-            const centerDisplay = document.getElementById('centerDisplay');
-            
-            autoRotateBtn.addEventListener('click', toggleAutoRotate);
-            pauseBtn.addEventListener('click', pauseRotation);
-            closeBtn.addEventListener('click', hideCenterDisplay);
-            
-            centerDisplay.addEventListener('click', (e) => {
-                if (e.target === centerDisplay) {
-                    hideCenterDisplay();
-                }
-            });
-            
-            document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape' && centerDisplay.classList.contains('visible')) {
-                    hideCenterDisplay();
-                }
-            });
-        });
-    </script>
-</body>
-</html>
+                    projectItem.style.transform = `translate(-50%, -50%) rotateX(-25deg) translate(${radialX}px, ${radialY}px) translateZ(40px) scale(1.

@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mi Portafolio 3D</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <title>Portafolio 3D</title>
     <style>
         * {
             margin: 0;
@@ -35,334 +34,6 @@
 
         .custom-cursor.hover {
             transform: scale(1.5);
-        }
-
-        .welcome-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #87CEEB 0%, #98D8E8 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 15000;
-            transition: opacity 1s ease, visibility 1s ease;
-            opacity: 1;
-        }
-
-        .welcome-screen::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.1);
-            z-index: 1;
-        }
-
-        .welcome-screen.hidden {
-            opacity: 0;
-            visibility: hidden;
-        }
-
-        .clouds-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            z-index: 2;
-        }
-
-        .cloud {
-            position: absolute;
-            background: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.3) 0%, rgba(255, 255, 255, 0.15) 40%, transparent 70%);
-            filter: blur(40px);
-            border-radius: 50%;
-        }
-
-        .cloud-1 {
-            width: 400px;
-            height: 200px;
-            top: 10%;
-            left: -400px;
-            animation: float-right 120s linear infinite;
-        }
-
-        .cloud-2 {
-            width: 450px;
-            height: 220px;
-            top: 30%;
-            right: -450px;
-            animation: float-left 140s linear infinite;
-            animation-delay: -30s;
-        }
-
-        .cloud-3 {
-            width: 500px;
-            height: 250px;
-            top: 55%;
-            left: -500px;
-            animation: float-right 160s linear infinite;
-            animation-delay: -60s;
-        }
-
-        .cloud-4 {
-            width: 380px;
-            height: 190px;
-            top: 20%;
-            right: -380px;
-            animation: float-left 130s linear infinite;
-            animation-delay: -90s;
-        }
-
-        .cloud-5 {
-            width: 420px;
-            height: 210px;
-            top: 70%;
-            left: -420px;
-            animation: float-right 150s linear infinite;
-            animation-delay: -45s;
-        }
-
-        .cloud-6 {
-            width: 460px;
-            height: 230px;
-            top: 45%;
-            right: -460px;
-            animation: float-left 135s linear infinite;
-            animation-delay: -75s;
-        }
-
-        @keyframes float-right {
-            0% {
-                transform: translateX(0);
-            }
-            100% {
-                transform: translateX(calc(100vw + 500px));
-            }
-        }
-
-        @keyframes float-left {
-            0% {
-                transform: translateX(0);
-            }
-            100% {
-                transform: translateX(calc(-100vw - 500px));
-            }
-        }
-
-        .envelope-container {
-            position: relative;
-            width: 800px;
-            height: 550px;
-            cursor: pointer;
-            z-index: 10;
-        }
-
-        .envelope-closed {
-            position: absolute;
-            width: 100%;
-            left: 0;
-            bottom: 0;
-            z-index: 4;
-            transition: opacity 0.3s ease;
-        }
-
-        .envelope-closed img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-
-        .envelope-container.opened .envelope-closed {
-            opacity: 0;
-            pointer-events: none;
-        }
-        
-        .envelope-container.opened {
-            pointer-events: none;
-        }
-
-        .envelope-opened {
-            position: absolute;
-            width: 100%;
-            left: 0;
-            bottom: 0;
-            z-index: 1;
-            opacity: 0;
-        }
-
-        .envelope-opened img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-
-        .envelope-container.opened .envelope-opened {
-            opacity: 1;
-        }
-
-        .envelope-flap-front {
-            position: absolute;
-            width: 100%;
-            left: 0;
-            bottom: 0;
-            z-index: 3;
-            opacity: 0;
-        }
-
-        .envelope-flap-front img {
-            width: 100%;
-            height: auto;
-            display: block;
-        }
-
-        .envelope-container.opened .envelope-flap-front {
-            opacity: 1;
-        }
-
-        .envelope-letter {
-            position: absolute;
-            width: 76%;
-            height: 135%;
-            left: 12%;
-            bottom: 15%;
-            z-index: 2;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: center;
-            clip-path: inset(100% 0 0 0);
-            transition: clip-path 1.8s cubic-bezier(0.34, 1.56, 0.64, 1);
-            background: #f5f5dc;
-            border-radius: 3px;
-        }
-
-        .envelope-container.opened .envelope-letter {
-            clip-path: inset(0 0 0 0);
-        }
-
-        .letter-content {
-            padding: 110px 50px 80px 50px;
-            width: 100%;
-            text-align: center;
-            position: relative;
-            z-index: 1000;
-        }
-
-        .letter-title {
-            font-size: clamp(2.2rem, 4.5vw, 3.5rem);
-            font-weight: 200;
-            color: #2c2c2c;
-            margin: 0 0 20px 0;
-            letter-spacing: -1px;
-        }
-
-        .letter-subtitle {
-            font-size: clamp(1rem, 1.8vw, 1.4rem);
-            color: #4a4a4a;
-            margin: 0 0 35px 0;
-            font-weight: 300;
-            line-height: 1.5;
-        }
-
-        .letter-button {
-            background: #E74C3C;
-            border: none;
-            border-radius: 30px;
-            padding: 16px 36px;
-            color: #fff;
-            font-size: 15px;
-            font-weight: 500;
-            letter-spacing: 1.2px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 6px 15px rgba(231, 76, 60, 0.4);
-            position: relative;
-            z-index: 1000;
-            pointer-events: auto;
-        }
-
-        .letter-button:hover {
-            background: #C0392B;
-            transform: translateY(-3px);
-            box-shadow: 0 8px 20px rgba(231, 76, 60, 0.5);
-        }
-
-        .envelope-instruction {
-            position: absolute;
-            bottom: -70px;
-            left: 50%;
-            transform: translateX(-50%);
-            color: rgba(255, 255, 255, 0.9);
-            font-size: 17px;
-            font-weight: 300;
-            opacity: 1;
-            transition: opacity 0.3s ease;
-            white-space: nowrap;
-        }
-
-        .envelope-container.opened .envelope-instruction {
-            opacity: 0;
-        }
-
-        .loading-screen {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 10000;
-            transition: all 1s ease;
-        }
-
-        .loading-screen.hidden {
-            opacity: 0;
-            visibility: hidden;
-        }
-
-        .loading-content {
-            text-align: center;
-        }
-
-        .loading-title {
-            font-size: clamp(2rem, 5vw, 4rem);
-            font-weight: 200;
-            color: #333;
-            margin-bottom: 20px;
-            letter-spacing: -1px;
-        }
-
-        .loading-bar {
-            width: 300px;
-            height: 2px;
-            background: rgba(0, 0, 0, 0.1);
-            margin: 0 auto;
-            overflow: hidden;
-            border-radius: 1px;
-        }
-
-        .loading-progress {
-            height: 100%;
-            background: #333;
-            width: 0%;
-            transition: width 0.3s ease;
-        }
-
-        .loading-counter {
-            margin-top: 20px;
-            font-size: 14px;
-            color: #666;
-            font-weight: 300;
         }
 
         .header {
@@ -430,44 +101,14 @@
             max-height: 800px;
             transform-style: preserve-3d;
             transition: transform 0.1s ease-out;
-            transform: rotateX(60deg) rotateZ(0deg);
-        }
-
-        .center-content {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) rotateX(-60deg);
-            text-align: center;
-            z-index: 100;
-            pointer-events: none;
-            display: none;
-        }
-
-        .center-title {
-            font-size: clamp(2.5rem, 6vw, 5rem);
-            font-weight: 200;
-            color: #333;
-            margin-bottom: 15px;
-            letter-spacing: -2px;
-            opacity: 0;
-            display: none;
-        }
-
-        .center-subtitle {
-            font-size: clamp(1rem, 2vw, 1.4rem);
-            color: #666;
-            font-weight: 300;
-            letter-spacing: 1px;
-            opacity: 0;
-            display: none;
+            transform: rotateX(75deg) rotateZ(-15deg);
         }
 
         .center-preview {
             position: absolute;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%) rotateX(-60deg);
+            transform: translate(-50%, -50%) rotateX(-75deg);
             width: 200px;
             height: 120px;
             border-radius: 12px;
@@ -494,7 +135,7 @@
             position: absolute;
             bottom: -30px;
             left: 50%;
-            transform: translateX(-50%) rotateX(60deg);
+            transform: translateX(-50%) rotateX(75deg);
             color: #333;
             font-size: 14px;
             font-weight: 500;
@@ -512,18 +153,12 @@
             transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
             transform-style: preserve-3d;
             box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-            opacity: 0;
             will-change: transform, box-shadow;
-        }
-
-        .project-item.loaded {
-            opacity: 1;
         }
 
         .project-item:hover {
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
             z-index: 50;
-            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
         .project-item::before {
@@ -599,7 +234,7 @@
             position: absolute;
             bottom: -65px;
             left: 50%;
-            transform: translateX(-50%) rotateX(60deg);
+            transform: translateX(-50%) rotateX(75deg);
             background: rgba(0, 0, 0, 0.92);
             color: white;
             padding: 12px 18px;
@@ -631,7 +266,7 @@
 
         .project-item:hover .project-info {
             opacity: 1;
-            transform: translateX(-50%) translateY(-20px) rotateX(60deg);
+            transform: translateX(-50%) translateY(-20px) rotateX(75deg);
         }
 
         .project-item:hover {
@@ -750,47 +385,6 @@
             color: white;
         }
 
-        .particles-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: -1;
-        }
-
-        .particle {
-            position: absolute;
-            width: 3px;
-            height: 3px;
-            background: rgba(150, 150, 150, 0.8);
-            border-radius: 50%;
-            animation: float 6s ease-in-out infinite;
-        }
-
-        @keyframes fadeInCenter {
-            to {
-                opacity: 1;
-            }
-        }
-
-        @keyframes float {
-            0%, 100% {
-                transform: translateY(0px) rotate(0deg);
-            }
-            50% {
-                transform: translateY(-10px) rotate(180deg);
-            }
-        }
-
-        @media (max-width: 900px) {
-            .envelope-container {
-                width: 90vw;
-                height: calc(90vw * 0.6875);
-            }
-        }
-
         @media (max-width: 768px) {
             .nav {
                 padding: 0 20px;
@@ -821,53 +415,6 @@
 <body>
     <div class="custom-cursor" id="customCursor"></div>
 
-    <div class="welcome-screen" id="welcomeScreen">
-        <div class="clouds-container">
-            <div class="cloud cloud-1"></div>
-            <div class="cloud cloud-2"></div>
-            <div class="cloud cloud-3"></div>
-            <div class="cloud cloud-4"></div>
-            <div class="cloud cloud-5"></div>
-            <div class="cloud cloud-6"></div>
-        </div>
-        
-        <div class="envelope-container" id="envelopeContainer">
-            <div class="envelope-opened">
-                <img src="https://github.com/tomasoromero/portfolio/raw/main/sobre-abierto.png" alt="">
-            </div>
-            
-            <div class="envelope-letter">
-                <div class="letter-content">
-                    <h1 class="letter-title">Bienvenido</h1>
-                    <p class="letter-subtitle">Descubre mi mundo creativo a través de una experiencia visual única</p>
-                    <button class="letter-button" id="enterButton">ENTRAR</button>
-                </div>
-            </div>
-            
-            <div class="envelope-flap-front">
-                <img src="https://github.com/tomasoromero/portfolio/raw/main/sobre-abierto-tapa.png" alt="">
-            </div>
-            
-            <div class="envelope-closed">
-                <img src="https://github.com/tomasoromero/portfolio/raw/main/sobre-cerrado.png" alt="">
-            </div>
-            
-            <div class="envelope-instruction">Haz click para abrir</div>
-        </div>
-    </div>
-
-    <div class="loading-screen hidden" id="loadingScreen">
-        <div class="loading-content">
-            <div class="loading-title">Cargando Portafolio</div>
-            <div class="loading-bar">
-                <div class="loading-progress" id="loadingProgress"></div>
-            </div>
-            <div class="loading-counter" id="loadingCounter">0%</div>
-        </div>
-    </div>
-
-    <div class="particles-container" id="particlesContainer"></div>
-
     <header class="header">
         <nav class="nav">
             <a href="#" class="logo">PORTAFOLIO</a>
@@ -881,11 +428,6 @@
 
     <div class="main-container">
         <div class="ring-container" id="ringContainer">
-            <div class="center-content" id="centerContent">
-                <h1 class="center-title">Mi Trabajo.</h1>
-                <p class="center-subtitle">Creatividad Visual</p>
-            </div>
-
             <div class="center-preview" id="centerPreview">
                 <div class="preview-title" id="previewTitle"></div>
             </div>
@@ -899,7 +441,7 @@
     </div>
 
     <div class="controls">
-        <button class="control-btn" id="autoRotateBtn">Rotación Automática</button>
+        <button class="control-btn active" id="autoRotateBtn">Rotando...</button>
         <button class="control-btn" id="pauseBtn">Pausar</button>
     </div>
 
@@ -934,15 +476,15 @@
         ];
 
         let ringContainer;
-        let isAutoRotating = false;
+        let isAutoRotating = true;
         let rotationSpeed = 0;
         let targetItemRotation = 0;
         let currentItemRotation = 0;
         let mouseX = 0;
         let mouseY = 0;
-        let targetRotationX = 60;
+        let targetRotationX = 75;
         let targetRotationY = 0;
-        let currentRotationX = 60;
+        let currentRotationX = 75;
         let currentRotationY = 0;
 
         const cursor = document.getElementById('customCursor');
@@ -955,69 +497,16 @@
             mouseY = (e.clientY / window.innerHeight) * 2 - 1;
             
             targetRotationY = mouseX * 15;
-            targetRotationX = 60 - mouseY * 10;
+            targetRotationX = 75 - mouseY * 10;
         });
 
         document.addEventListener('mouseover', (e) => {
-            if (e.target.closest('button') || e.target.closest('.envelope-container') || e.target.closest('.project-item') || e.target.closest('a')) {
+            if (e.target.closest('button') || e.target.closest('.project-item') || e.target.closest('a')) {
                 cursor.classList.add('hover');
             } else {
                 cursor.classList.remove('hover');
             }
         });
-
-        const envelopeContainer = document.getElementById('envelopeContainer');
-        const enterButton = document.getElementById('enterButton');
-        
-        envelopeContainer.addEventListener('click', (e) => {
-            if (!envelopeContainer.classList.contains('opened') && !e.target.closest('.letter-button')) {
-                envelopeContainer.classList.add('opened');
-                e.stopPropagation();
-            }
-        });
-        
-        enterButton.addEventListener('click', (e) => {
-            e.stopPropagation();
-            e.preventDefault();
-            const welcomeScreen = document.getElementById('welcomeScreen');
-            welcomeScreen.classList.add('hidden');
-            setTimeout(() => {
-                startLoading();
-            }, 1000);
-        });
-
-        function startLoading() {
-            const loadingScreen = document.getElementById('loadingScreen');
-            loadingScreen.classList.remove('hidden');
-            
-            let progress = 0;
-            const progressBar = document.getElementById('loadingProgress');
-            const counter = document.getElementById('loadingCounter');
-            
-            const loadingInterval = setInterval(() => {
-                progress += Math.random() * 3;
-                if (progress > 100) progress = 100;
-                
-                progressBar.style.width = progress + '%';
-                counter.textContent = Math.floor(progress) + '%';
-                
-                if (progress >= 100) {
-                    clearInterval(loadingInterval);
-                    setTimeout(finishLoading, 800);
-                }
-            }, 50);
-        }
-
-        function finishLoading() {
-            const loadingScreen = document.getElementById('loadingScreen');
-            loadingScreen.classList.add('hidden');
-            
-            setTimeout(() => {
-                createRing();
-                createParticles();
-                startAnimation();
-            }, 300);
-        }
 
         function createRing() {
             ringContainer = document.getElementById('ringContainer');
@@ -1067,8 +556,7 @@
                     const radialX = Math.cos(radian) * pushOutDistance;
                     const radialY = Math.sin(radian) * pushOutDistance;
                     
-                    // SIN ROTACIÓN - Todos los folders miran de frente
-                    projectItem.style.transform = `translate(-50%, -50%) rotateX(-70deg) translate(${radialX}px, ${radialY}px) translateZ(40px) scale(1.35)`;
+                    projectItem.style.transform = `translate(-50%, -50%) rotateX(-75deg) translate(${radialX}px, ${radialY}px) translateZ(40px) scale(1.35)`;
                     projectItem.style.zIndex = '100';
                     
                     showPreview(project);
@@ -1083,10 +571,7 @@
                     const x = 50 + radius * Math.cos(radian);
                     const y = 50 + radius * Math.sin(radian);
                     
-                    const sinValue = Math.sin(radian);
-                    const rotateY = sinValue > 0.3 ? sinValue * 90 : 0;
-                    
-                    projectItem.style.transform = `translate(-50%, -50%) rotateX(-60deg) rotateY(${rotateY}deg) translateZ(0px) scale(1)`;
+                    projectItem.style.transform = `translate(-50%, -50%) rotateX(-75deg) translateZ(0px) scale(1)`;
                     projectItem.style.left = `${x}%`;
                     projectItem.style.top = `${y}%`;
                     projectItem.style.zIndex = '';
@@ -1103,18 +588,12 @@
                 });
                 
                 ringContainer.appendChild(projectItem);
-                
-                setTimeout(() => {
-                    projectItem.classList.add('loaded');
-                }, index * 100);
             });
         }
 
         function showPreview(project) {
             const centerPreview = document.getElementById('centerPreview');
-            const centerContent = document.getElementById('centerContent');
             
-            centerContent.style.opacity = '0';
             centerPreview.innerHTML = '';
             
             let previewMedia;
@@ -1143,10 +622,7 @@
 
         function hidePreview() {
             const centerPreview = document.getElementById('centerPreview');
-            const centerContent = document.getElementById('centerContent');
-            
             centerPreview.classList.remove('visible');
-            centerContent.style.opacity = '1';
             
             const video = centerPreview.querySelector('video');
             if (video) {
@@ -1216,27 +692,6 @@
             }, { passive: false });
         }
 
-        function createParticles() {
-            const container = document.getElementById('particlesContainer');
-            const numParticles = 150;
-            
-            for (let i = 0; i < numParticles; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                particle.style.left = Math.random() * 100 + '%';
-                particle.style.top = Math.random() * 100 + '%';
-                particle.style.animationDelay = Math.random() * 6 + 's';
-                particle.style.animationDuration = (Math.random() * 4 + 4) + 's';
-                
-                const grayValue = 100 + Math.random() * 100;
-                particle.style.background = `rgba(${grayValue}, ${grayValue}, ${grayValue}, 0.8)`;
-                particle.style.width = (2 + Math.random() * 3) + 'px';
-                particle.style.height = particle.style.width;
-                
-                container.appendChild(particle);
-            }
-        }
-
         function animate() {
             if (isAutoRotating) {
                 rotationSpeed += 0.3;
@@ -1245,13 +700,11 @@
             
             currentItemRotation += (targetItemRotation - currentItemRotation) * 0.05;
             
-            // Suavizar el movimiento del efecto magnético
             currentRotationX += (targetRotationX - currentRotationX) * 0.08;
             currentRotationY += (targetRotationY - currentRotationY) * 0.08;
             
-            // Aplicar transformación al contenedor del aro con efecto magnético
             if (ringContainer) {
-                ringContainer.style.transform = `rotateX(${currentRotationX}deg) rotateY(${currentRotationY}deg) rotateZ(0deg)`;
+                ringContainer.style.transform = `rotateX(${currentRotationX}deg) rotateY(${currentRotationY}deg) rotateZ(-15deg)`;
             }
             
             const projectItems = document.querySelectorAll('.project-item');
@@ -1265,14 +718,9 @@
                 const x = 50 + radius * Math.cos(radian);
                 const y = 50 + radius * Math.sin(radian);
                 
-                // Sin da 1 en la parte superior (90°) y -1 en la parte inferior (270°)
-                // Solo rotar cuando está arriba (sin > 0.3)
-                const sinValue = Math.sin(radian);
-                const rotateY = sinValue > 0.3 ? sinValue * 90 : 0;
-                
                 item.style.left = `${x}%`;
                 item.style.top = `${y}%`;
-                item.style.transform = `translate(-50%, -50%) rotateX(-60deg) rotateY(${rotateY}deg) translateZ(0px) scale(1)`;
+                item.style.transform = `translate(-50%, -50%) rotateX(-75deg) translateZ(0px) scale(1)`;
             });
             
             requestAnimationFrame(animate);
@@ -1281,12 +729,6 @@
         function startAnimation() {
             setupWheelControl();
             animate();
-            
-            setTimeout(() => {
-                if (!isAutoRotating) {
-                    toggleAutoRotate();
-                }
-            }, 3000);
         }
 
         function toggleAutoRotate() {
@@ -1312,6 +754,9 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
+            createRing();
+            startAnimation();
+            
             const autoRotateBtn = document.getElementById('autoRotateBtn');
             const pauseBtn = document.getElementById('pauseBtn');
             const closeBtn = document.getElementById('closeBtn');
@@ -1335,4 +780,3 @@
         });
     </script>
 </body>
-</html>

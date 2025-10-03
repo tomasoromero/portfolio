@@ -101,14 +101,14 @@
             max-height: 800px;
             transform-style: preserve-3d;
             transition: transform 0.1s ease-out;
-            transform: rotateX(75deg) rotateZ(-15deg);
+            transform: rotateX(85deg) rotateZ(-20deg);
         }
 
         .center-preview {
             position: absolute;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%) rotateX(-75deg);
+            transform: translate(-50%, -50%) rotateX(-85deg);
             width: 200px;
             height: 120px;
             border-radius: 12px;
@@ -135,7 +135,7 @@
             position: absolute;
             bottom: -30px;
             left: 50%;
-            transform: translateX(-50%) rotateX(75deg);
+            transform: translateX(-50%) rotateX(85deg);
             color: #333;
             font-size: 14px;
             font-weight: 500;
@@ -234,7 +234,7 @@
             position: absolute;
             bottom: -65px;
             left: 50%;
-            transform: translateX(-50%) rotateX(75deg);
+            transform: translateX(-50%) rotateX(85deg);
             background: rgba(0, 0, 0, 0.92);
             color: white;
             padding: 12px 18px;
@@ -266,7 +266,7 @@
 
         .project-item:hover .project-info {
             opacity: 1;
-            transform: translateX(-50%) translateY(-20px) rotateX(75deg);
+            transform: translateX(-50%) translateY(-20px) rotateX(85deg);
         }
 
         .project-item:hover {
@@ -482,9 +482,9 @@
         let currentItemRotation = 0;
         let mouseX = 0;
         let mouseY = 0;
-        let targetRotationX = 75;
+        let targetRotationX = 85;
         let targetRotationY = 0;
-        let currentRotationX = 75;
+        let currentRotationX = 85;
         let currentRotationY = 0;
 
         const cursor = document.getElementById('customCursor');
@@ -497,7 +497,7 @@
             mouseY = (e.clientY / window.innerHeight) * 2 - 1;
             
             targetRotationY = mouseX * 15;
-            targetRotationX = 75 - mouseY * 10;
+            targetRotationX = 85 - mouseY * 10;
         });
 
         document.addEventListener('mouseover', (e) => {
@@ -556,7 +556,7 @@
                     const radialX = Math.cos(radian) * pushOutDistance;
                     const radialY = Math.sin(radian) * pushOutDistance;
                     
-                    projectItem.style.transform = `translate(-50%, -50%) rotateX(-75deg) translate(${radialX}px, ${radialY}px) translateZ(40px) scale(1.35)`;
+                    projectItem.style.transform = `translate(-50%, -50%) rotateX(-85deg) translate(${radialX}px, ${radialY}px) translateZ(40px) scale(1.35)`;
                     projectItem.style.zIndex = '100';
                     
                     showPreview(project);
@@ -571,7 +571,7 @@
                     const x = 50 + radius * Math.cos(radian);
                     const y = 50 + radius * Math.sin(radian);
                     
-                    projectItem.style.transform = `translate(-50%, -50%) rotateX(-75deg) translateZ(0px) scale(1)`;
+                    projectItem.style.transform = `translate(-50%, -50%) rotateX(-85deg) translateZ(0px) scale(1)`;
                     projectItem.style.left = `${x}%`;
                     projectItem.style.top = `${y}%`;
                     projectItem.style.zIndex = '';
@@ -704,7 +704,7 @@
             currentRotationY += (targetRotationY - currentRotationY) * 0.08;
             
             if (ringContainer) {
-                ringContainer.style.transform = `rotateX(${currentRotationX}deg) rotateY(${currentRotationY}deg) rotateZ(-15deg)`;
+                ringContainer.style.transform = `rotateX(${currentRotationX}deg) rotateY(${currentRotationY}deg) rotateZ(-20deg)`;
             }
             
             const projectItems = document.querySelectorAll('.project-item');
@@ -720,7 +720,7 @@
                 
                 item.style.left = `${x}%`;
                 item.style.top = `${y}%`;
-                item.style.transform = `translate(-50%, -50%) rotateX(-75deg) translateZ(0px) scale(1)`;
+                item.style.transform = `translate(-50%, -50%) rotateX(-85deg) translateZ(0px) scale(1)`;
             });
             
             requestAnimationFrame(animate);

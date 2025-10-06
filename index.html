@@ -480,10 +480,10 @@
             });
         }
 
-        // Anillo 3D
+        // Anillo 3D con profundidad real
         function initRing() {
             const container = document.getElementById('ringContainer');
-            const radius = 46;
+            const radius = 42;
             
             projects.forEach((project, i) => {
                 const item = document.createElement('div');
@@ -501,7 +501,7 @@
 
             function animate() {
                 if (isAutoRotating) {
-                    targetRotation += 0.15;
+                    targetRotation += 0.2;
                 }
                 
                 currentRotation += (targetRotation - currentRotation) * 0.05;
@@ -515,9 +515,10 @@
                     const x = 50 + radius * Math.cos(radian);
                     const y = 50 + radius * Math.sin(radian);
                     
+                    // Rotación en X para que las tarjetas miren hacia adelante
                     item.style.left = `${x}%`;
                     item.style.top = `${y}%`;
-                    item.style.transform = `translate(-50%, -50%)`;
+                    item.style.transform = `translate(-50%, -50%) rotateX(-65deg)`;
                 });
                 
                 requestAnimationFrame(animate);

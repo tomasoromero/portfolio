@@ -105,7 +105,7 @@
             text-align: center;
         }
 
-        /* Anillo 3D */
+        /* Anillo 3D mejorado */
         .ring-section {
             background: linear-gradient(180deg, #42a5f5 0%, #2196f3 100%);
         }
@@ -126,36 +126,66 @@
 
         .ring-container {
             position: relative;
-            width: 90vmin;
-            height: 90vmin;
-            max-width: 900px;
-            max-height: 900px;
+            width: 80vmin;
+            height: 80vmin;
+            max-width: 800px;
+            max-height: 800px;
             transform-style: preserve-3d;
-            transform: rotateX(5deg) rotateZ(0deg);
+            transition: transform 0.1s ease-out;
+            transform: rotateX(85deg) rotateZ(-20deg);
         }
 
         .project-item {
             position: absolute;
-            width: 240px;
-            height: 160px;
-            border-radius: 16px;
+            width: 160px;
+            height: 100px;
+            border-radius: 12px;
             overflow: hidden;
             cursor: pointer;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            transition: all 0.3s ease;
-            backface-visibility: visible;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            transform-style: preserve-3d;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            will-change: transform, box-shadow;
+        }
+
+        .project-item:hover {
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            z-index: 50;
+            filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.3));
+        }
+
+        .project-item::before {
+            content: '';
+            position: absolute;
+            top: -5px;
+            left: -5px;
+            right: -5px;
+            bottom: -5px;
+            border-radius: 15px;
+            background: linear-gradient(45deg, 
+                rgba(255, 255, 255, 0.2), 
+                rgba(255, 255, 255, 0.1), 
+                transparent
+            );
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            z-index: -1;
+        }
+
+        .project-item:hover::before {
+            opacity: 1;
         }
 
         .project-item img {
             width: 100%;
             height: 100%;
             object-fit: cover;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            border-radius: 12px;
         }
 
-        .project-item:hover {
-            transform: scale(1.3) !important;
-            z-index: 100;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+        .project-item:hover img {
+            filter: brightness(1.15) contrast(1.08) saturate(1.15);
         }
 
         .controls {
@@ -183,8 +213,54 @@
         }
 
         .control-btn.active {
-            background: #5b21b6;
+            background: #01579b;
             color: white;
+        }
+
+        /* Reproductor de Spotify flotante */
+        .spotify-player {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 380px;
+            height: 152px;
+            z-index: 9999;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+            transform-style: preserve-3d;
+            will-change: transform;
+        }
+
+        .spotify-player:hover {
+            transform: scale(1.05) translateZ(20px);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4);
+        }
+
+        .spotify-player iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 16px;
+        }
+
+        /* Efecto de brillo en el reproductor */
+        .spotify-player::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .spotify-player:hover::before {
+            left: 100%;
         }
 
         /* Colores de secciones - Degradado celeste a azul oscuro */
@@ -269,12 +345,19 @@
             }
 
             .project-item {
-                width: 150px;
-                height: 100px;
+                width: 120px;
+                height: 75px;
             }
 
             section {
                 padding: 100px 20px 60px;
+            }
+
+            .spotify-player {
+                width: 300px;
+                height: 120px;
+                bottom: 20px;
+                right: 20px;
             }
         }
     </style>
@@ -310,7 +393,7 @@
         </div>
     </section>
 
-    <!-- Sección: Mis Favoritas (Anillo 3D) -->
+    <!-- Sección: Mis Favoritas (Anillo 3D mejorado) -->
     <section id="favoritas" class="ring-section">
         <h2 class="section-title" data-text="MIS FAVORITAS ♡"></h2>
         <div class="ring-container-wrapper">
@@ -362,8 +445,8 @@
         </div>
     </section>
 
-    <!-- Reproductor de Spotify flotante -->
-    <div class="spotify-player">
+    <!-- Reproductor de Spotify flotante con efecto 3D -->
+    <div class="spotify-player" id="spotifyPlayer">
         <iframe 
             src="https://open.spotify.com/embed/playlist/2pCVpFuga1UkwmWDqyIo2t?utm_source=generator&theme=0" 
             allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
@@ -389,9 +472,17 @@
             { src: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&h=400&fit=crop" }
         ];
 
+        let ringContainer;
         let isAutoRotating = true;
-        let currentRotation = 0;
-        let targetRotation = 0;
+        let rotationSpeed = 0;
+        let targetItemRotation = 0;
+        let currentItemRotation = 0;
+        let mouseX = 0;
+        let mouseY = 0;
+        let targetRotationX = 85;
+        let targetRotationY = 0;
+        let currentRotationX = 85;
+        let currentRotationY = 0;
 
         // Texto curvo hero grande
         function initHeroText() {
@@ -480,64 +571,107 @@
             });
         }
 
-        // Anillo 3D con profundidad real
-        function initRing() {
-            const container = document.getElementById('ringContainer');
+        // Anillo 3D mejorado con orientación vertical
+        function createRing() {
+            ringContainer = document.getElementById('ringContainer');
+            const numItems = projects.length;
             const radius = 42;
             
-            projects.forEach((project, i) => {
-                const item = document.createElement('div');
-                item.className = 'project-item';
+            projects.forEach((project, index) => {
+                const projectItem = document.createElement('div');
+                projectItem.className = 'project-item';
+                projectItem.dataset.index = index;
+                projectItem.dataset.numItems = numItems;
+                projectItem.dataset.radius = radius;
                 
-                const img = document.createElement('img');
-                img.src = project.src;
-                item.appendChild(img);
+                const mediaElement = document.createElement('img');
+                mediaElement.src = project.src;
+                mediaElement.alt = `Memoria ${index + 1}`;
                 
-                const angle = (i * 360) / projects.length;
-                item.dataset.angle = angle;
+                projectItem.appendChild(mediaElement);
                 
-                container.appendChild(item);
-            });
-
-            function animate() {
-                if (isAutoRotating) {
-                    targetRotation += 0.2;
-                }
+                const initialAngle = (index / numItems) * 360;
+                projectItem.dataset.baseAngle = initialAngle;
                 
-                currentRotation += (targetRotation - currentRotation) * 0.05;
-                
-                const items = container.querySelectorAll('.project-item');
-                items.forEach((item) => {
-                    const baseAngle = parseFloat(item.dataset.angle);
-                    const angle = baseAngle + currentRotation;
-                    const radian = (angle * Math.PI) / 180;
+                projectItem.addEventListener('mouseenter', () => {
+                    const currentAngle = parseFloat(projectItem.dataset.baseAngle) + currentItemRotation;
+                    const radian = (currentAngle * Math.PI) / 180;
                     
+                    const pushOutDistance = 80;
+                    const radialX = Math.cos(radian) * pushOutDistance;
+                    const radialY = Math.sin(radian) * pushOutDistance;
+                    
+                    projectItem.style.transform = `translate(-50%, -50%) rotateX(-85deg) translate(${radialX}px, ${radialY}px) translateZ(40px) scale(1.35)`;
+                    projectItem.style.zIndex = '100';
+                });
+                
+                projectItem.addEventListener('mouseleave', () => {
+                    const currentAngle = parseFloat(projectItem.dataset.baseAngle) + currentItemRotation;
+                    const radian = (currentAngle * Math.PI) / 180;
                     const x = 50 + radius * Math.cos(radian);
                     const y = 50 + radius * Math.sin(radian);
                     
-                    // Rotación en X para que las tarjetas miren hacia adelante
-                    item.style.left = `${x}%`;
-                    item.style.top = `${y}%`;
-                    item.style.transform = `translate(-50%, -50%) rotateX(-65deg)`;
+                    projectItem.style.transform = `translate(-50%, -50%) rotateX(-85deg) translateZ(0px) scale(1)`;
+                    projectItem.style.left = `${x}%`;
+                    projectItem.style.top = `${y}%`;
+                    projectItem.style.zIndex = '';
                 });
                 
-                requestAnimationFrame(animate);
-            }
-            animate();
-
-            container.addEventListener('wheel', (e) => {
-                e.preventDefault();
-                isAutoRotating = false;
-                targetRotation += e.deltaY > 0 ? 5 : -5;
-                document.getElementById('autoRotateBtn').classList.remove('active');
-                document.getElementById('autoRotateBtn').textContent = 'Rotación Automática';
+                ringContainer.appendChild(projectItem);
             });
         }
 
-        // Controles
-        document.getElementById('autoRotateBtn').addEventListener('click', () => {
+        function setupWheelControl() {
+            ringContainer.addEventListener('wheel', (e) => {
+                e.preventDefault();
+                
+                if (isAutoRotating) {
+                    pauseRotation();
+                }
+                
+                const direction = e.deltaY > 0 ? 1 : -1;
+                targetItemRotation += direction * 5;
+            }, { passive: false });
+        }
+
+        function animate() {
+            if (isAutoRotating) {
+                rotationSpeed += 0.3;
+                targetItemRotation = rotationSpeed;
+            }
+            
+            currentItemRotation += (targetItemRotation - currentItemRotation) * 0.05;
+            
+            currentRotationX += (targetRotationX - currentRotationX) * 0.08;
+            currentRotationY += (targetRotationY - currentRotationY) * 0.08;
+            
+            if (ringContainer) {
+                ringContainer.style.transform = `rotateX(${currentRotationX}deg) rotateY(${currentRotationY}deg) rotateZ(-20deg)`;
+            }
+            
+            const projectItems = document.querySelectorAll('.project-item');
+            projectItems.forEach((item) => {
+                const radius = parseFloat(item.dataset.radius);
+                const baseAngle = parseFloat(item.dataset.baseAngle);
+                
+                const angle = baseAngle + currentItemRotation;
+                const radian = (angle * Math.PI) / 180;
+                
+                const x = 50 + radius * Math.cos(radian);
+                const y = 50 + radius * Math.sin(radian);
+                
+                item.style.left = `${x}%`;
+                item.style.top = `${y}%`;
+                item.style.transform = `translate(-50%, -50%) rotateX(-85deg) translateZ(0px) scale(1)`;
+            });
+            
+            requestAnimationFrame(animate);
+        }
+
+        function toggleAutoRotate() {
             isAutoRotating = !isAutoRotating;
             const btn = document.getElementById('autoRotateBtn');
+            
             if (isAutoRotating) {
                 btn.classList.add('active');
                 btn.textContent = 'Rotando...';
@@ -545,21 +679,52 @@
                 btn.classList.remove('active');
                 btn.textContent = 'Rotación Automática';
             }
-        });
+        }
 
-        document.getElementById('pauseBtn').addEventListener('click', () => {
+        function pauseRotation() {
             isAutoRotating = false;
-            targetRotation = currentRotation;
-            const btn = document.getElementById('autoRotateBtn');
-            btn.classList.remove('active');
-            btn.textContent = 'Rotación Automática';
-        });
+            rotationSpeed = 0;
+            
+            const autoRotateBtn = document.getElementById('autoRotateBtn');
+            autoRotateBtn.classList.remove('active');
+            autoRotateBtn.textContent = 'Rotación Automática';
+        }
 
-        // Iniciar
+        // Efecto 3D para el reproductor de Spotify
+        function initSpotifyPlayer() {
+            const player = document.getElementById('spotifyPlayer');
+            
+            player.addEventListener('mousemove', (e) => {
+                const rect = player.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = ((y - centerY) / centerY) * -10;
+                const rotateY = ((x - centerX) / centerX) * 10;
+                
+                player.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05) translateZ(20px)`;
+            });
+            
+            player.addEventListener('mouseleave', () => {
+                player.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1) translateZ(0px)';
+            });
+        }
+
+        // Controles
+        document.getElementById('autoRotateBtn').addEventListener('click', toggleAutoRotate);
+        document.getElementById('pauseBtn').addEventListener('click', pauseRotation);
+
+        // Iniciar todo
         window.addEventListener('load', () => {
             initHeroText();
             initScrollTitles();
-            initRing();
+            createRing();
+            setupWheelControl();
+            animate();
+            initSpotifyPlayer();
         });
     </script>
 </body>

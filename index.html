@@ -1,4 +1,12 @@
-<!DOCTYPE html>
+@media (max-width: 768px) {
+                .hero-curved {
+                    height: 120px;
+                }
+                
+                .hero-curved text {
+                    font-size: 32px;
+                }
+            }<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -17,34 +25,31 @@
             font-family: 'Helvetica Neue', Arial, sans-serif;
             background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
             color: #333;
-            overflow-x: hidden;
         }
 
-        /* Hero con texto curvo y galería integrados */
+        /* Hero con texto curvo grande */
         .hero-section {
             min-height: 100vh;
             display: flex;
-            flex-direction: column;
             align-items: center;
             justify-content: center;
             position: relative;
             background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
             overflow: hidden;
-            padding: 40px 20px;
+            padding: 20px;
         }
 
         .hero-curved {
             position: relative;
             width: 100%;
             max-width: 1600px;
-            height: 25vh;
-            min-height: 200px;
+            height: 60vh;
+            min-height: 400px;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: grab;
             user-select: none;
-            margin-bottom: 40px;
         }
 
         .hero-curved:active {
@@ -54,36 +59,13 @@
         .hero-curved svg {
             width: 100%;
             height: 100%;
-            overflow: visible;
         }
 
         .hero-curved text {
-            font-size: clamp(40px, 7vw, 100px);
+            font-size: clamp(40px, 8vw, 100px);
             font-weight: bold;
             fill: #92400e;
-            letter-spacing: 0.12em;
-            text-anchor: middle;
-        }
-
-        /* Galería integrada en hero */
-        .hero-gallery-container {
-            width: 100%;
-            max-width: 1600px;
-            height: 50vh;
-            min-height: 400px;
-            position: relative;
-        }
-
-        .gallery-canvas {
-            width: 100%;
-            height: 100%;
-            position: relative;
-            overflow: hidden;
-            cursor: grab;
-        }
-
-        .gallery-canvas:active {
-            cursor: grabbing;
+            letter-spacing: 0.1em;
         }
 
         /* Secciones */
@@ -131,7 +113,7 @@
             text-align: center;
         }
 
-        /* Anillo 3D mejorado */
+        /* Anillo 3D */
         .ring-section {
             background: linear-gradient(180deg, #42a5f5 0%, #2196f3 100%);
         }
@@ -152,66 +134,36 @@
 
         .ring-container {
             position: relative;
-            width: 80vmin;
-            height: 80vmin;
-            max-width: 800px;
-            max-height: 800px;
+            width: 90vmin;
+            height: 90vmin;
+            max-width: 900px;
+            max-height: 900px;
             transform-style: preserve-3d;
-            transition: transform 0.1s ease-out;
-            transform: rotateX(85deg) rotateZ(-20deg);
+            transform: rotateX(5deg) rotateZ(0deg);
         }
 
         .project-item {
             position: absolute;
-            width: 160px;
-            height: 100px;
-            border-radius: 12px;
+            width: 240px;
+            height: 160px;
+            border-radius: 16px;
             overflow: hidden;
             cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-            transform-style: preserve-3d;
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-            will-change: transform, box-shadow;
-        }
-
-        .project-item:hover {
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
-            z-index: 50;
-            filter: drop-shadow(0 0 20px rgba(255, 255, 255, 0.3));
-        }
-
-        .project-item::before {
-            content: '';
-            position: absolute;
-            top: -5px;
-            left: -5px;
-            right: -5px;
-            bottom: -5px;
-            border-radius: 15px;
-            background: linear-gradient(45deg, 
-                rgba(255, 255, 255, 0.2), 
-                rgba(255, 255, 255, 0.1), 
-                transparent
-            );
-            opacity: 0;
-            transition: opacity 0.4s ease;
-            z-index: -1;
-        }
-
-        .project-item:hover::before {
-            opacity: 1;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+            backface-visibility: visible;
         }
 
         .project-item img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-            border-radius: 12px;
         }
 
-        .project-item:hover img {
-            filter: brightness(1.15) contrast(1.08) saturate(1.15);
+        .project-item:hover {
+            transform: scale(1.3) !important;
+            z-index: 100;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
         }
 
         .controls {
@@ -239,56 +191,11 @@
         }
 
         .control-btn.active {
-            background: #01579b;
+            background: #5b21b6;
             color: white;
         }
 
-        /* Reproductor de Spotify flotante */
-        .spotify-player {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 380px;
-            height: 152px;
-            z-index: 9999;
-            border-radius: 16px;
-            overflow: hidden;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
-            transform-style: preserve-3d;
-            will-change: transform;
-        }
-
-        .spotify-player:hover {
-            transform: scale(1.05) translateZ(20px);
-            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.4);
-        }
-
-        .spotify-player iframe {
-            width: 100%;
-            height: 100%;
-            border: none;
-            border-radius: 16px;
-        }
-
-        .spotify-player::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-            transition: left 0.5s;
-            pointer-events: none;
-            z-index: 1;
-        }
-
-        .spotify-player:hover::before {
-            left: 100%;
-        }
-
-        /* Colores de secciones */
+        /* Colores de secciones - Degradado celeste a azul oscuro */
         #historia {
             background: linear-gradient(180deg, #90caf9 0%, #64b5f6 100%);
         }
@@ -355,8 +262,8 @@
 
         @media (max-width: 768px) {
             .hero-curved text {
-                font-size: 40px;
-                letter-spacing: 4px;
+                font-size: 60px;
+                letter-spacing: 6px;
             }
 
             .section-title {
@@ -370,47 +277,29 @@
             }
 
             .project-item {
-                width: 120px;
-                height: 75px;
+                width: 150px;
+                height: 100px;
             }
 
             section {
                 padding: 100px 20px 60px;
             }
-
-            .spotify-player {
-                width: 300px;
-                height: 120px;
-                bottom: 20px;
-                right: 20px;
-            }
-
-            .gallery-container {
-                height: 60vh;
-                min-height: 400px;
-            }
         }
     </style>
 </head>
 <body>
-    <!-- Hero con texto curvo responsive -->
+    <!-- Hero con texto curvo grande -->
     <section class="hero-section">
         <div class="hero-curved" id="heroCurved">
-            <svg viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet">
+            <svg viewBox="0 0 1440 120" preserveAspectRatio="xMidYMid meet">
+                <text id="measureText" xml:space="preserve" style="visibility: hidden; opacity: 0; pointer-events: none;"></text>
                 <defs>
-                    <path id="heroPath" d="M 10,50 Q 50,20 90,50" fill="none"/>
+                    <path id="heroPath" d="M-100,40 Q500,440 1540,40" fill="none" stroke="transparent"/>
                 </defs>
-                <text font-weight="bold">
-                    <textPath id="heroTextPath" href="#heroPath" startOffset="0%"></textPath>
+                <text font-weight="bold" xml:space="preserve">
+                    <textPath id="heroTextPath" href="#heroPath" startOffset="0" xml:space="preserve"></textPath>
                 </text>
             </svg>
-        </div>
-    </section>
-
-    <!-- Galería Circular WebGL -->
-    <section class="gallery-section">
-        <div class="gallery-container">
-            <div class="gallery-canvas" id="galleryCanvas"></div>
         </div>
     </section>
 
@@ -483,7 +372,7 @@
     </section>
 
     <!-- Reproductor de Spotify flotante -->
-    <div class="spotify-player" id="spotifyPlayer">
+    <div class="spotify-player">
         <iframe 
             src="https://open.spotify.com/embed/playlist/2pCVpFuga1UkwmWDqyIo2t?utm_source=generator&theme=0" 
             allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
@@ -494,18 +383,7 @@
     <script>
         gsap.registerPlugin(ScrollTrigger);
 
-        const galleryImages = [
-            { image: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=600&h=400&fit=crop", text: "Momento 1" },
-            { image: "https://images.unsplash.com/photo-1558655146-d09347e92766?w=600&h=400&fit=crop", text: "Momento 2" },
-            { image: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=600&h=400&fit=crop", text: "Momento 3" },
-            { image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&h=400&fit=crop", text: "Momento 4" },
-            { image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&h=400&fit=crop", text: "Momento 5" },
-            { image: "https://images.unsplash.com/photo-1551650975-87deedd944c3?w=600&h=400&fit=crop", text: "Momento 6" },
-            { image: "https://images.unsplash.com/photo-1511818966892-d7d671e672a2?w=600&h=400&fit=crop", text: "Momento 7" },
-            { image: "https://images.unsplash.com/photo-1586880244386-8b3e34c8382c?w=600&h=400&fit=crop", text: "Momento 8" }
-        ];
-
-        const ringProjects = [
+        const projects = [
             { src: "https://images.unsplash.com/photo-1449824913935-59a10b8d2000?w=600&h=400&fit=crop" },
             { src: "https://images.unsplash.com/photo-1558655146-d09347e92766?w=600&h=400&fit=crop" },
             { src: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=600&h=400&fit=crop" },
@@ -520,160 +398,84 @@
             { src: "https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&h=400&fit=crop" }
         ];
 
-        let ringContainer;
         let isAutoRotating = true;
-        let rotationSpeed = 0;
-        let targetItemRotation = 0;
-        let currentItemRotation = 0;
-        let targetRotationX = 85;
-        let targetRotationY = 0;
-        let currentRotationX = 85;
-        let currentRotationY = 0;
+        let currentRotation = 0;
+        let targetRotation = 0;
 
-        // Texto curvo hero responsive
+        // Texto curvo hero con loop infinito mejorado
         function initHeroText() {
-            const textPath = document.getElementById('heroTextPath');
             const heroText = '٩(ˊᗜˋ*)و ♡ FELIZ ANIVERSARIO ♡ ⸜(｡˃ ᵕ ˂ )⸝ ♡ BIENVENIDA A NUESTRAS MEMORIAS ♡ ';
-            const repeatedText = heroText.repeat(3);
-            textPath.textContent = repeatedText;
+            const text = heroText.replace(/\s+$/, '') + '\u00A0';
             
-            let offset = 0;
-            let isDragging = false;
-            let lastX = 0;
-            let direction = 'right';
+            const measureText = document.getElementById('measureText');
+            const textPath = document.getElementById('heroTextPath');
             
-            const heroCurved = document.getElementById('heroCurved');
+            measureText.textContent = text;
             
-            heroCurved.addEventListener('pointerdown', (e) => {
-                isDragging = true;
-                lastX = e.clientX;
-            });
-            
-            heroCurved.addEventListener('pointermove', (e) => {
-                if (!isDragging) return;
-                const dx = e.clientX - lastX;
-                lastX = e.clientX;
-                offset += dx * 0.5;
-                const percentage = (offset % 100 + 100) % 100;
-                textPath.setAttribute('startOffset', percentage + '%');
-            });
-            
-            const endDrag = () => {
-                isDragging = false;
-            };
-            
-            heroCurved.addEventListener('pointerup', endDrag);
-            heroCurved.addEventListener('pointerleave', endDrag);
-            
-            function animate() {
-                if (!isDragging) {
-                    const delta = direction === 'right' ? 0.2 : -0.2;
-                    offset += delta;
-                    const percentage = (offset % 100 + 100) % 100;
-                    textPath.setAttribute('startOffset', percentage + '%');
-                }
-                requestAnimationFrame(animate);
-            }
-            animate();
-        }
-
-        // Galería circular simplificada con canvas
-        function initGallery() {
-            const container = document.getElementById('galleryCanvas');
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            container.appendChild(canvas);
-
-            let scroll = { current: 0, target: 0 };
-            let images = [];
-            let isDown = false;
-            let startX = 0;
-            let scrollStart = 0;
-
-            function resizeCanvas() {
-                canvas.width = container.clientWidth;
-                canvas.height = container.clientHeight;
-            }
-
-            function loadImages() {
-                galleryImages.forEach((item, index) => {
-                    const img = new Image();
-                    img.crossOrigin = 'anonymous';
-                    img.src = item.image;
-                    img.onload = () => {
-                        images.push({
-                            img,
-                            text: item.text,
-                            x: index * 350,
-                            width: 300,
-                            height: 200
-                        });
-                    };
-                });
-            }
-
-            function drawGallery() {
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
+            setTimeout(() => {
+                const spacing = measureText.getComputedTextLength();
                 
-                scroll.current += (scroll.target - scroll.current) * 0.1;
-
-                images.forEach(item => {
-                    const x = item.x - scroll.current + canvas.width / 2 - item.width / 2;
-                    const y = canvas.height / 2 - item.height / 2;
-                    
-                    const centerOffset = x + item.width / 2 - canvas.width / 2;
-                    const bendAmount = Math.abs(centerOffset) / (canvas.width / 2);
-                    const yOffset = bendAmount * 100;
-                    
-                    ctx.save();
-                    ctx.translate(x + item.width / 2, y + item.height / 2 + yOffset);
-                    ctx.rotate(centerOffset * 0.0005);
-                    
-                    ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
-                    ctx.shadowBlur = 20;
-                    ctx.shadowOffsetY = 10;
-                    
-                    ctx.beginPath();
-                    ctx.roundRect(-item.width / 2, -item.height / 2, item.width, item.height, 15);
-                    ctx.clip();
-                    ctx.drawImage(item.img, -item.width / 2, -item.height / 2, item.width, item.height);
-                    
-                    ctx.restore();
-                    
-                    ctx.fillStyle = '#92400e';
-                    ctx.font = 'bold 16px sans-serif';
-                    ctx.textAlign = 'center';
-                    ctx.fillText(item.text, x + item.width / 2, y + item.height + 30 + yOffset);
+                // Crear texto repetido para loop infinito
+                const totalText = Array(Math.ceil(1800 / spacing) + 2).fill(text).join('');
+                textPath.textContent = totalText;
+                
+                let offset = -spacing;
+                textPath.setAttribute('startOffset', offset + 'px');
+                
+                let isDragging = false;
+                let lastX = 0;
+                let velocity = 0;
+                let direction = 'left';
+                const speed = 2;
+                
+                const heroCurved = document.getElementById('heroCurved');
+                
+                heroCurved.addEventListener('pointerdown', (e) => {
+                    isDragging = true;
+                    lastX = e.clientX;
+                    velocity = 0;
+                    heroCurved.setPointerCapture(e.pointerId);
                 });
-
-                requestAnimationFrame(drawGallery);
-            }
-
-            canvas.addEventListener('mousedown', (e) => {
-                isDown = true;
-                startX = e.clientX;
-                scrollStart = scroll.target;
-            });
-
-            canvas.addEventListener('mousemove', (e) => {
-                if (!isDown) return;
-                const diff = e.clientX - startX;
-                scroll.target = scrollStart - diff * 2;
-            });
-
-            canvas.addEventListener('mouseup', () => isDown = false);
-            canvas.addEventListener('mouseleave', () => isDown = false);
-
-            canvas.addEventListener('wheel', (e) => {
-                e.preventDefault();
-                scroll.target += e.deltaY * 0.5;
-            }, { passive: false });
-
-            window.addEventListener('resize', resizeCanvas);
-            
-            resizeCanvas();
-            loadImages();
-            drawGallery();
+                
+                heroCurved.addEventListener('pointermove', (e) => {
+                    if (!isDragging) return;
+                    const dx = e.clientX - lastX;
+                    lastX = e.clientX;
+                    velocity = dx;
+                    offset += dx;
+                    
+                    // Loop infinito
+                    if (offset <= -spacing) offset += spacing;
+                    if (offset > 0) offset -= spacing;
+                    
+                    textPath.setAttribute('startOffset', offset + 'px');
+                });
+                
+                const endDrag = () => {
+                    if (!isDragging) return;
+                    isDragging = false;
+                    direction = velocity > 0 ? 'right' : 'left';
+                };
+                
+                heroCurved.addEventListener('pointerup', endDrag);
+                heroCurved.addEventListener('pointerleave', endDrag);
+                
+                // Animación continua
+                function animate() {
+                    if (!isDragging) {
+                        const delta = direction === 'right' ? speed : -speed;
+                        offset += delta;
+                        
+                        // Loop infinito suave
+                        if (offset <= -spacing) offset += spacing;
+                        if (offset > 0) offset -= spacing;
+                        
+                        textPath.setAttribute('startOffset', offset + 'px');
+                    }
+                    requestAnimationFrame(animate);
+                }
+                animate();
+            }, 100);
         }
 
         // Títulos con scroll-float
@@ -713,107 +515,64 @@
             });
         }
 
-        // Anillo 3D
-        function createRing() {
-            ringContainer = document.getElementById('ringContainer');
-            const numItems = ringProjects.length;
+        // Anillo 3D con profundidad real
+        function initRing() {
+            const container = document.getElementById('ringContainer');
             const radius = 42;
             
-            ringProjects.forEach((project, index) => {
-                const projectItem = document.createElement('div');
-                projectItem.className = 'project-item';
-                projectItem.dataset.index = index;
-                projectItem.dataset.numItems = numItems;
-                projectItem.dataset.radius = radius;
+            projects.forEach((project, i) => {
+                const item = document.createElement('div');
+                item.className = 'project-item';
                 
-                const mediaElement = document.createElement('img');
-                mediaElement.src = project.src;
-                mediaElement.alt = `Memoria ${index + 1}`;
+                const img = document.createElement('img');
+                img.src = project.src;
+                item.appendChild(img);
                 
-                projectItem.appendChild(mediaElement);
+                const angle = (i * 360) / projects.length;
+                item.dataset.angle = angle;
                 
-                const initialAngle = (index / numItems) * 360;
-                projectItem.dataset.baseAngle = initialAngle;
+                container.appendChild(item);
+            });
+
+            function animate() {
+                if (isAutoRotating) {
+                    targetRotation += 0.2;
+                }
                 
-                projectItem.addEventListener('mouseenter', () => {
-                    const currentAngle = parseFloat(projectItem.dataset.baseAngle) + currentItemRotation;
-                    const radian = (currentAngle * Math.PI) / 180;
+                currentRotation += (targetRotation - currentRotation) * 0.05;
+                
+                const items = container.querySelectorAll('.project-item');
+                items.forEach((item) => {
+                    const baseAngle = parseFloat(item.dataset.angle);
+                    const angle = baseAngle + currentRotation;
+                    const radian = (angle * Math.PI) / 180;
                     
-                    const pushOutDistance = 80;
-                    const radialX = Math.cos(radian) * pushOutDistance;
-                    const radialY = Math.sin(radian) * pushOutDistance;
-                    
-                    projectItem.style.transform = `translate(-50%, -50%) rotateX(-85deg) translate(${radialX}px, ${radialY}px) translateZ(40px) scale(1.35)`;
-                    projectItem.style.zIndex = '100';
-                });
-                
-                projectItem.addEventListener('mouseleave', () => {
-                    const currentAngle = parseFloat(projectItem.dataset.baseAngle) + currentItemRotation;
-                    const radian = (currentAngle * Math.PI) / 180;
                     const x = 50 + radius * Math.cos(radian);
                     const y = 50 + radius * Math.sin(radian);
                     
-                    projectItem.style.transform = `translate(-50%, -50%) rotateX(-85deg) translateZ(0px) scale(1)`;
-                    projectItem.style.left = `${x}%`;
-                    projectItem.style.top = `${y}%`;
-                    projectItem.style.zIndex = '';
+                    // Rotación en X para que las tarjetas miren hacia adelante
+                    item.style.left = `${x}%`;
+                    item.style.top = `${y}%`;
+                    item.style.transform = `translate(-50%, -50%) rotateX(-65deg)`;
                 });
                 
-                ringContainer.appendChild(projectItem);
-            });
-        }
+                requestAnimationFrame(animate);
+            }
+            animate();
 
-        function setupWheelControl() {
-            ringContainer.addEventListener('wheel', (e) => {
+            container.addEventListener('wheel', (e) => {
                 e.preventDefault();
-                
-                if (isAutoRotating) {
-                    pauseRotation();
-                }
-                
-                const direction = e.deltaY > 0 ? 1 : -1;
-                targetItemRotation += direction * 5;
-            }, { passive: false });
-        }
-
-        function animateRing() {
-            if (isAutoRotating) {
-                rotationSpeed += 0.3;
-                targetItemRotation = rotationSpeed;
-            }
-            
-            currentItemRotation += (targetItemRotation - currentItemRotation) * 0.05;
-            
-            currentRotationX += (targetRotationX - currentRotationX) * 0.08;
-            currentRotationY += (targetRotationY - currentRotationY) * 0.08;
-            
-            if (ringContainer) {
-                ringContainer.style.transform = `rotateX(${currentRotationX}deg) rotateY(${currentRotationY}deg) rotateZ(-20deg)`;
-            }
-            
-            const projectItems = document.querySelectorAll('.project-item');
-            projectItems.forEach((item) => {
-                const radius = parseFloat(item.dataset.radius);
-                const baseAngle = parseFloat(item.dataset.baseAngle);
-                
-                const angle = baseAngle + currentItemRotation;
-                const radian = (angle * Math.PI) / 180;
-                
-                const x = 50 + radius * Math.cos(radian);
-                const y = 50 + radius * Math.sin(radian);
-                
-                item.style.left = `${x}%`;
-                item.style.top = `${y}%`;
-                item.style.transform = `translate(-50%, -50%) rotateX(-85deg) translateZ(0px) scale(1)`;
+                isAutoRotating = false;
+                targetRotation += e.deltaY > 0 ? 5 : -5;
+                document.getElementById('autoRotateBtn').classList.remove('active');
+                document.getElementById('autoRotateBtn').textContent = 'Rotación Automática';
             });
-            
-            requestAnimationFrame(animateRing);
         }
 
-        function toggleAutoRotate() {
+        // Controles
+        document.getElementById('autoRotateBtn').addEventListener('click', () => {
             isAutoRotating = !isAutoRotating;
             const btn = document.getElementById('autoRotateBtn');
-            
             if (isAutoRotating) {
                 btn.classList.add('active');
                 btn.textContent = 'Rotando...';
@@ -821,53 +580,21 @@
                 btn.classList.remove('active');
                 btn.textContent = 'Rotación Automática';
             }
-        }
+        });
 
-        function pauseRotation() {
+        document.getElementById('pauseBtn').addEventListener('click', () => {
             isAutoRotating = false;
-            rotationSpeed = 0;
-            
-            const autoRotateBtn = document.getElementById('autoRotateBtn');
-            autoRotateBtn.classList.remove('active');
-            autoRotateBtn.textContent = 'Rotación Automática';
-        }
+            targetRotation = currentRotation;
+            const btn = document.getElementById('autoRotateBtn');
+            btn.classList.remove('active');
+            btn.textContent = 'Rotación Automática';
+        });
 
-        // Efecto 3D para el reproductor de Spotify
-        function initSpotifyPlayer() {
-            const player = document.getElementById('spotifyPlayer');
-            
-            player.addEventListener('mousemove', (e) => {
-                const rect = player.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                
-                const centerX = rect.width / 2;
-                const centerY = rect.height / 2;
-                
-                const rotateX = ((y - centerY) / centerY) * -10;
-                const rotateY = ((x - centerX) / centerX) * 10;
-                
-                player.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.05) translateZ(20px)`;
-            });
-            
-            player.addEventListener('mouseleave', () => {
-                player.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1) translateZ(0px)';
-            });
-        }
-
-        // Controles del anillo
-        document.getElementById('autoRotateBtn').addEventListener('click', toggleAutoRotate);
-        document.getElementById('pauseBtn').addEventListener('click', pauseRotation);
-
-        // Iniciar todo
+        // Iniciar
         window.addEventListener('load', () => {
             initHeroText();
-            initGallery();
             initScrollTitles();
-            createRing();
-            setupWheelControl();
-            animateRing();
-            initSpotifyPlayer();
+            initRing();
         });
     </script>
 </body>
